@@ -1,8 +1,10 @@
-<br><br>
+<br>
 
 <p align="center">
   <img width="496" height="112" src="./frontend/static/logo.png">
 </p>
+
+<br>
 
 # A toolkit for KTH students
 
