@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  > * {
+    align-self: center;
+  }
+}
+
+.profileInformation {
+  margin: 10px auto;
+
+  > :last-child {
+    margin-top: 20px;
+  }
+
+  > * {
+    margin: auto;
+    text-align: center;
+  }
+}
+
+.loginButtonField {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}

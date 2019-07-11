@@ -1,0 +1,43 @@
+@import "../../global/global.scss";
+
+.navbar {
+  box-shadow: none !important;
+}
+
+.navbar-brand {
+  width: 140px;
+  margin: 0 auto;
+}
+
+.profileContainer {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  flex-direction: row;
+
+  @include sm {
+    display: none;
+  }
+
+  .nameContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    > p {
+      margin: 0;
+      font-size: 0.9rem;
+      max-width: 130px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  > figure {
+    margin: auto;
+    padding: 10px;
+    align-items: center;
+  }
+}
