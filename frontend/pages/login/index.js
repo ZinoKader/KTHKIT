@@ -9,7 +9,8 @@ import styles from "./styles.scss";
 import {
   setProfileCookies,
   setAuthCookies,
-  getAuthCookies
+  getAuthCookies,
+  isLoggedIn
 } from "../../utils/login";
 
 const Login = ({ ctx, from }) => {
@@ -18,10 +19,6 @@ const Login = ({ ctx, from }) => {
   const [mailValid, setEmailValidity] = useState("true");
   const [passwordValid, setPasswordValidity] = useState("true");
   const [loading, setLoading] = useState("false");
-
-  const isLoggedIn = () => {
-    return getAuthCookies(ctx).all(authCookie => authCookie != null);
-  };
 
   const validateLogin = () => {
     const [emailValidity, passwordValidity] = [
@@ -54,80 +51,102 @@ const Login = ({ ctx, from }) => {
     <Layout ctx={ctx}>
       <section className="section">
         <div className="container">
-          <h1 className="title">Logga in</h1>
-          <p className="subtitle">
-            Logga in med ditt <strong>KTH-konto</strong>
-          </p>
+          {isLoggedIn(ctx) ? (
+            <h1 className="title">Du är redan inloggad</h1>
+          ) : (
+            <>
+              <h1 className="title">Logga in</h1>
+              <p className="subtitle">
+                Logga in med ditt <strong>KTH-konto</strong>
+              </p>
+            </>
+          )}
           <div className="card">
-            <div className="card-content">
-              <form
-                onSubmit={e => {
-                  e.preventDefault();
-                  validateLogin() && submitLogin();
-                }}
+            {isLoggedIn(ctx) ? (
+              <button
+                className={classnames(
+                  "button",
+                  "is-medium",
+                  "is-dark",
+                  "is-fullwidth",
+                  {
+                    "is-loading": loading === true
+                  }
+                )}
               >
-                <div className="field">
-                  <div className="control has-icons-left has-icons-right">
-                    <input
-                      className={classnames("input", {
-                        "is-danger": !mailValid
+                Logga ut
+              </button>
+            ) : (
+              <div className="card-content">
+                <form
+                  onSubmit={e => {
+                    e.preventDefault();
+                    validateLogin() && submitLogin();
+                  }}
+                >
+                  <div className="field">
+                    <div className="control has-icons-left has-icons-right">
+                      <input
+                        className={classnames("input", {
+                          "is-danger": !mailValid
+                        })}
+                        onChange={e => setEmail(e.target.value)}
+                        value={email}
+                        type="email"
+                        placeholder="jag@kth.se"
+                      ></input>
+                      <span className="icon is-small is-left">
+                        <i className="fas fa-envelope"></i>
+                      </span>
+                    </div>
+                    <p
+                      className={classnames("help", "is-danger", {
+                        "is-hidden": mailValid
                       })}
-                      onChange={e => setEmail(e.target.value)}
-                      value={email}
-                      type="email"
-                      placeholder="jag@kth.se"
-                    ></input>
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-envelope"></i>
-                    </span>
-                  </div>
-                  <p
-                    className={classnames("help", "is-danger", {
-                      "is-hidden": mailValid
-                    })}
-                  >
-                    Skriv din KTH-mail med @kth.se
-                  </p>
-                </div>
-                <div className="field">
-                  <div className="control has-icons-left has-icons-right">
-                    <input
-                      className="input"
-                      onChange={e => setPassword(e.target.value)}
-                      value={password}
-                      type="password"
-                      placeholder="lösenord"
-                    ></input>
-                    <span className="icon is-small is-left">
-                      <i className="fas fa-lock"></i>
-                    </span>
-                  </div>
-                  <p
-                    className={classnames("help", "is-danger", {
-                      "is-hidden": passwordValid
-                    })}
-                  >
-                    Ange ett giltigt lösenord
-                  </p>
-                </div>
-                <div className="field loginButtonField">
-                  <div className="control">
-                    <button
-                      className={classnames(
-                        "button",
-                        "is-dark",
-                        "is-fullWidth",
-                        {
-                          "is-loading": loading === true
-                        }
-                      )}
                     >
-                      Logga in
-                    </button>
+                      Skriv din KTH-mail med @kth.se
+                    </p>
                   </div>
-                </div>
-              </form>
-            </div>
+                  <div className="field">
+                    <div className="control has-icons-left has-icons-right">
+                      <input
+                        className="input"
+                        onChange={e => setPassword(e.target.value)}
+                        value={password}
+                        type="password"
+                        placeholder="lösenord"
+                      ></input>
+                      <span className="icon is-small is-left">
+                        <i className="fas fa-lock"></i>
+                      </span>
+                    </div>
+                    <p
+                      className={classnames("help", "is-danger", {
+                        "is-hidden": passwordValid
+                      })}
+                    >
+                      Ange ett giltigt lösenord
+                    </p>
+                  </div>
+                  <div className="field loginButtonField">
+                    <div className="control">
+                      <button
+                        className={classnames(
+                          "button",
+                          "is-dark",
+                          "is-fullwidth",
+                          {
+                            "is-loading": loading === true
+                          }
+                        )}
+                      >
+                        Logga in
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            )}
           </div>
         </div>
       </section>
