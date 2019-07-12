@@ -1,0 +1,15 @@
+.progressContainer {
+  > p {
+    text-align: center;
+  }
+}
+
+.content {
+  > :first-child {
+    margin-top: 10px;
+  }
+}
+
+.gradeContainer {
+  margin-bottom: 25px;
+}

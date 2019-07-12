@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
-import { getProfile, getGrades } from "../../api/api";
-import { getCookies, setCookies } from "cookies-next";
+import { getGrades } from "../../api/api";
 import Layout from "../../components/Layout";
-import { kth_mail_domain } from "../../global/global";
-import classnames from "classnames";
 import "./styles.scss";
 import { getAuthCookies, setAuthState } from "../../utils/login";
 
 const Grades = ({ ctx }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [grades, setGrades] = useState([]);
   const [loading, setLoading] = useState("false");
 
   useEffect(() => {
     const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
-    setAuthState(ctx, setEmail, setPassword);
     (async () => {
       !(cookieEmail && cookiePassword) &&
         Router.push({
           pathname: "/login",
           query: { from: "/grades" }
         });
+    })();
+    (async () => {
+      getGrades(cookieEmail, cookiePassword).then(({ data }) => {
+        setGrades(data);
+      });
     })();
   }, []);
 
@@ -32,11 +32,29 @@ const Grades = ({ ctx }) => {
           <h1 className="title">Dina kurser</h1>
           <div className="card">
             <div className="card-content">
-              {/*             {() =>
-                getGrades(email, password).then(({ data }) => {
-                  <p></p>;
-                })
-              } */}
+              <ul>
+                <div className="content">
+                  {grades.length === 0 && (
+                    <div className="progressContainer">
+                      <p>Hämtar kurser från KTH</p>
+                      <progress
+                        className="progress is-medium is-dark"
+                        max="100"
+                      ></progress>
+                    </div>
+                  )}
+                  {grades.map((gradeItem, index) => (
+                    <li key={index}>
+                      <div className="box gradeContainer">
+                        <p>
+                          {gradeItem.name}, {gradeItem.credits},{" "}
+                          {gradeItem.grade}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </div>
+              </ul>
             </div>
           </div>
         </div>
