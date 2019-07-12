@@ -26,6 +26,11 @@ export const setProfileState = (ctx, setFullName, setProfileImageUrl) => {
   setProfileImageUrl(getCookies(ctx, "profileimageurl"));
 };
 
+export const isLoggedIn = ctx => {
+  const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
+  return cookieEmail != null && cookiePassword != null;
+};
+
 export const deleteAuthAndProfileCookies = ctx => {
   removeCookies(ctx, "email");
   removeCookies(ctx, "password");
