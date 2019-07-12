@@ -9,7 +9,7 @@ import styles from "./styles.scss";
 import {
   setProfileCookies,
   setAuthCookies,
-  getAuthCookies,
+  deleteAuthAndProfileCookies,
   isLoggedIn
 } from "../../utils/login";
 
@@ -47,6 +47,11 @@ const Login = ({ ctx, from }) => {
       });
   };
 
+  const submitLogout = () => {
+    deleteAuthAndProfileCookies(ctx);
+    Router.push("/");
+  };
+
   return (
     <Layout ctx={ctx}>
       <section className="section">
@@ -73,6 +78,7 @@ const Login = ({ ctx, from }) => {
                     "is-loading": loading === true
                   }
                 )}
+                onClick={() => submitLogout()}
               >
                 Logga ut
               </button>
