@@ -7,12 +7,14 @@ import { getCookies, removeCookies } from "cookies-next";
 import styles from "./styles.scss";
 import {
   deleteAuthAndProfileCookies,
-  setProfileState
+  setProfileState,
+  isLoggedIn
 } from "../../utils/login";
 
 const Layout = ({ children, ctx, title }) => {
   const [fullName, setFullName] = useState("");
   const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [hamburgerMenuActive, setHamburgerMenuActive] = useState("false");
 
   const submitLogout = () => {
     deleteAuthAndProfileCookies(ctx);
@@ -31,6 +33,52 @@ const Layout = ({ children, ctx, title }) => {
       </Head>
       <header>
         <nav className="navbar" role="navigation" aria-label="main navigation">
+          <a
+            role="button"
+            className={classnames("navbar-burger", {
+              "is-active": !hamburgerMenuActive
+            })}
+            aria-label="menu"
+            aria-expanded="false"
+            onClick={() => setHamburgerMenuActive(!hamburgerMenuActive)}
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+          <div
+            className={classnames("navbar-menu", {
+              "is-active": !hamburgerMenuActive
+            })}
+          >
+            <div className="navbar-start">
+              <Link href="/">
+                <a className="navbar-item">Hem</a>
+              </Link>
+              <div className="navbar-item has-dropdown is-hoverable">
+                <a className="navbar-link">Konto</a>
+                <div className="navbar-dropdown">
+                  <Link href="/profile">
+                    <a className="navbar-item">Din profil</a>
+                  </Link>
+                  <hr className="navbar-divider" />
+                  {isLoggedIn(ctx) ? (
+                    <a className="navbar-item" onClick={() => submitLogout()}>
+                      Logga ut
+                    </a>
+                  ) : (
+                    <a
+                      className="navbar-item"
+                      onClick={() => Router.push("/login")}
+                    >
+                      Logga in
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="navbar-brand">
             <Link prefetch href="/">
               <a className="navbar-item">
@@ -38,14 +86,8 @@ const Layout = ({ children, ctx, title }) => {
               </a>
             </Link>
           </div>
+
           <div className="profileContainer">
-            <figure
-              className={classnames("image", "is-64x64", "profileIconFigure", {
-                "is-hidden": profileImageUrl === null
-              })}
-            >
-              <img className="is-rounded" src={profileImageUrl} />
-            </figure>
             <div className="nameContainer">
               <p className="subtitle is-6">
                 {fullName != null ? fullName.split(" ")[0] : ""}
@@ -54,7 +96,20 @@ const Layout = ({ children, ctx, title }) => {
                 {fullName != null ? fullName.split(" ")[1] : ""}
               </p>
             </div>
-            <a onClick={() => submitLogout()}>Logga ut</a>
+            <Link href="/profile">
+              <figure
+                className={classnames(
+                  "image",
+                  "is-64x64",
+                  "profileIconFigure",
+                  {
+                    "is-hidden": profileImageUrl === null
+                  }
+                )}
+              >
+                <img className="is-rounded" src={profileImageUrl} />
+              </figure>
+            </Link>
           </div>
         </nav>
       </header>

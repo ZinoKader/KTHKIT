@@ -1,29 +1,66 @@
 @import "../../global/global.scss";
 
 .navbar {
-  box-shadow: none !important;
+  box-shadow: 0px 1px 1px -6px rgba(0, 0, 0, 0.15),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
+}
+
+.navbar-burger {
+  margin-left: 0 !important;
+}
+
+.navbar-menu {
+  > * {
+    -webkit-user-select: none; /* Chrome all / Safari all */
+    -moz-user-select: none; /* Firefox all */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Likely future */
+  }
 }
 
 .navbar-brand {
   width: 140px;
   margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 80px);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .profileContainer {
   display: flex;
   position: absolute;
   top: 0;
-  left: 10px;
+  right: 10px;
   flex-direction: row;
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
 
-  @include sm {
-    display: none;
+  > figure {
+    margin: auto;
+    padding: 10px;
+    align-items: center;
+    transition: 0.5s;
+    > :hover {
+      filter: grayscale(30%);
+      cursor: pointer;
+      transition: 0.5s;
+    }
   }
 
   .nameContainer {
     display: flex;
     justify-content: center;
     flex-direction: column;
+
+    @include sm {
+      display: none;
+    }
 
     > p {
       margin: 0;
@@ -33,11 +70,5 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-  }
-
-  > figure {
-    margin: auto;
-    padding: 10px;
-    align-items: center;
   }
 }
