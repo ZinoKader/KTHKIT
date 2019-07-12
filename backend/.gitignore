@@ -2,4 +2,4 @@
 # misc
 .DS_Store
 .env
-.pyc
+*.pyc
