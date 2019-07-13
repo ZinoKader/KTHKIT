@@ -3,11 +3,6 @@
 # dependencies
 /node_modules
 
-# production
-/frontend/build
-/frontend/dist
-/frontend/.next
-
 # misc
 .DS_Store
 .env
