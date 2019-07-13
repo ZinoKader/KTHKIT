@@ -36,10 +36,6 @@ const Login = ({ ctx, from }) => {
       .then(({ data }) => {
         setProfileCookies(ctx, data.givenName, data.familyName, data.image);
       })
-      .catch(() => {
-        setFullname("");
-        setProfileImageUrl("");
-      })
       .finally(() => {
         setLoading(false);
         setAuthCookies(ctx, email, password);
