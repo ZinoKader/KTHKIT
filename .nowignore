@@ -1,0 +1,19 @@
+/.vscode
+
+# dependencies
+/node_modules
+
+# production
+/frontend/build
+/frontend/dist
+/frontend/.next
+
+# misc
+.DS_Store
+.env
+*.pyc
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
+package-lock.json
