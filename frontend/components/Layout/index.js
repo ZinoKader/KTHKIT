@@ -3,8 +3,6 @@ import Router from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import classnames from "classnames";
-import { getCookies, removeCookies } from "cookies-next";
-import styles from "./styles.scss";
 import {
   deleteAuthAndProfileCookies,
   setProfileState,
@@ -98,14 +96,9 @@ const Layout = ({ children, ctx, title }) => {
             </div>
             <Link href="/profile">
               <figure
-                className={classnames(
-                  "image",
-                  "is-64x64",
-                  "profileIconFigure",
-                  {
-                    "is-hidden": profileImageUrl === null
-                  }
-                )}
+                className={classnames("image", "is-64x64", {
+                  "is-hidden": profileImageUrl === null
+                })}
               >
                 <img className="is-rounded" src={profileImageUrl} />
               </figure>
