@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "alias": "KTHKIT",
   "name": "KTHKIT",
   "builds": [{ "src": "next.config.js", "use": "@now/next" }]
