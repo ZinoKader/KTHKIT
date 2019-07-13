@@ -22,13 +22,26 @@ export const setProfileCookies = (ctx, name, surName, imageUrl) => {
 };
 
 export const setProfileState = (ctx, setFullName, setProfileImageUrl) => {
-  setFullName(getCookies(ctx, "fullname"));
-  setProfileImageUrl(getCookies(ctx, "profileimageurl"));
+  getCookies(ctx, "fullname") != null &&
+    setFullName(getCookies(ctx, "fullname"));
+  getCookies(ctx, "profileimageurl") != null &&
+    setProfileImageUrl(getCookies(ctx, "profileimageurl"));
 };
 
 export const isLoggedIn = ctx => {
   const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
   return cookieEmail != null && cookiePassword != null;
+};
+
+export const redirectIfLoggedOut = (ctx, router) => {
+  const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
+  (async () => {
+    !(cookieEmail && cookiePassword) &&
+      router.push({
+        pathname: "/login",
+        query: { from: router.pathname }
+      });
+  })();
 };
 
 export const deleteAuthAndProfileCookies = ctx => {
