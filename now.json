@@ -2,5 +2,5 @@
   "version": 2,
   "alias": "KTHKIT",
   "name": "KTHKIT",
-  "builds": [{ "src": "frontend/next.config.js", "use": "@now/next" }]
+  "builds": [{ "src": "frontend/package.json", "use": "@now/next" }]
 }
