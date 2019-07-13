@@ -8,6 +8,7 @@ import {
   setProfileState,
   isLoggedIn
 } from "../../utils/login";
+import styles from "./styles.scss";
 
 const Layout = ({ children, ctx, title }) => {
   const [fullName, setFullName] = useState("");
