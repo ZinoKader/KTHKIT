@@ -1,6 +1,0 @@
-{
-  "version": 2,
-  "alias": "KTHKIT",
-  "name": "KTHKIT",
-  "builds": [{ "src": "frontend/package.json", "use": "@now/next" }]
-}

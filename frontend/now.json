@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "alias": "KTHKIT",
+  "name": "KTHKIT",
+  "builds": [{ "src": "package.json", "use": "@now/next" }]
+}
