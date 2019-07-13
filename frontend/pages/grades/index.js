@@ -3,25 +3,20 @@ import Router from "next/router";
 import { getGrades } from "../../api/api";
 import Layout from "../../components/Layout";
 import "./styles.scss";
-import { getAuthCookies, setAuthState } from "../../utils/login";
+import { getAuthCookies, redirectIfLoggedOut } from "../../utils/login";
 
 const Grades = ({ ctx }) => {
   const [grades, setGrades] = useState([]);
-  const [loading, setLoading] = useState("false");
 
   useEffect(() => {
+    redirectIfLoggedOut(ctx, Router);
     const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
     (async () => {
-      !(cookieEmail && cookiePassword) &&
-        Router.push({
-          pathname: "/login",
-          query: { from: "/grades" }
+      cookieEmail &&
+        cookiePassword &&
+        getGrades(cookieEmail, cookiePassword).then(({ data }) => {
+          setGrades(data);
         });
-    })();
-    (async () => {
-      getGrades(cookieEmail, cookiePassword).then(({ data }) => {
-        setGrades(data);
-      });
     })();
   }, []);
 
