@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "alias": ["www.kthkit.se"],
+  "name": "KTHKIT",
+  "routes": [
+    {
+      "src": "/frontend/(.*)",
+      "status": 301,
+      "headers": { "Location": "https://kthkit.se/$1" }
+    }
+  ],
+  "builds": [
+    { "src": "frontend/package.json", "use": "@now/next" },
+    { "src": "backend", "use": "@now/python" }
+  ]
+}
