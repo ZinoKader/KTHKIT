@@ -11,6 +11,7 @@
   ],
   "builds": [
     { "src": "frontend/package.json", "use": "@now/next" },
-    { "src": "backend", "use": "@now/python" }
+    { "src": "backend/app.py", "use": "@now/python" },
+    { "src": "backend/(.*)", "dest": "backend/app.py" }
   ]
 }
