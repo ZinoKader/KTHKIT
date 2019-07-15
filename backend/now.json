@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "public": false,
+  "alias": ["www.api.kthkit.se", "api.kthkit.se"],
+  "name": "KTHKIT API",
+  "builds": [
+    { "src": "index.py", "use": "@now/python" },
+    { "src": "grades/index.py", "use": "@now/python" },
+    { "src": "profiles/index.py", "use": "@now/python" },
+    { "src": "404.html", "use": "@now/static" }
+  ],
+  "routes": [
+    {
+      "src": ".*",
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
+    },
+    { "src": "/(.*)", "dest": "/$1" },
+    { "handle": "filesystem" },
+    { "src": "/.*", "status": 404, "dest": "404.html" }
+  ]
+}
