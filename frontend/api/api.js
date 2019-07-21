@@ -2,7 +2,7 @@
 import axios from "axios";
 import { kth_mail_domain } from "../global/global";
 
-const profileApi = "https://api.kthkit.se/profiles/";
+const profileApi = "https://api.kthkit.se/profile/";
 const gradesApi = "https://api.kthkit.se/grades/";
 
 export const getProfile = email => {

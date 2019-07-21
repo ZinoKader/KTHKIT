@@ -7,5 +7,8 @@
     { "src": "next.config.js", "use": "@now/next" },
     { "src": "404.html", "use": "@now/static" }
   ],
-  "routes": [{ "src": "/.*", "status": 404, "dest": "404.html" }]
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "status": 404, "dest": "404.html" }
+  ]
 }
