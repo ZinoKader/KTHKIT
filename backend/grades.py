@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-from pprint import pprint
-
 finished_grades_endpoint = 'https://www.student.ladok.se/student/proxy/resultat/studentresultat/attesterade/student/'
 unfinished_grades_endpoint = 'https://www.student.ladok.se/student/proxy/studiedeltagande/tillfallesdeltagande/oavslutade/student/'
 sv_lang_key = 'sv'

@@ -1,30 +1,20 @@
 {
-  "version": 2,
-  "public": false,
-  "name": "KTHKIT API",
-  "builds": [
-    {
-      "src": "profile.js",
-      "use": "@now/node",
-      "config": { "maxLambdaSize": "50mb" }
-    },
-    {
-      "src": "grades.js",
-      "use": "@now/node",
-      "config": { "maxLambdaSize": "50mb" }
-    }
-  ],
-  "routes": [
-    { "src": "/profile/(.*)", "dest": "/profile.js" },
-    {
-      "src": "/grades/(.*)",
-      "dest": "/grades.js"
-    },
-    {
-      "src": ".*",
-      "headers": {
-        "Access-Control-Allow-Origin": "*"
-      }
-    }
-  ]
+	"version": 2,
+	"public": false,
+	"name": "KTHKIT API",
+	"builds": [
+		{
+			"src": "*.py",
+			"use": "@now/python"
+		}
+	],
+	"routes": [
+		{ "src": "/.*", "dest": "/" },
+		{
+			"src": ".*",
+			"headers": {
+				"Access-Control-Allow-Origin": "*"
+			}
+		}
+	]
 }

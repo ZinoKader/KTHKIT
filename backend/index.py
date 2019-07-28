@@ -5,7 +5,7 @@ from login import *
 from grades import *
 from profile import *
 
-app = Flask('KTH-API')
+app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 

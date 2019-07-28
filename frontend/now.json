@@ -1,7 +1,6 @@
 {
   "version": 2,
   "public": false,
-  "alias": ["www.kthkit.se", "kthkit.se"],
   "name": "KTHKIT",
   "builds": [
     { "src": "next.config.js", "use": "@now/next" },
