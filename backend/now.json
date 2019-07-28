@@ -1,18 +1,17 @@
 {
   "version": 2,
   "public": false,
-  "alias": ["www.api.kthkit.se", "api.kthkit.se"],
   "name": "KTHKIT API",
   "builds": [
     {
       "src": "profile.js",
       "use": "@now/node",
-      "config": { "maxLambdaSize": "40mb" }
+      "config": { "maxLambdaSize": "50mb" }
     },
     {
       "src": "grades.js",
       "use": "@now/node",
-      "config": { "maxLambdaSize": "40mb" }
+      "config": { "maxLambdaSize": "50mb" }
     }
   ],
   "routes": [
@@ -20,6 +19,12 @@
     {
       "src": "/grades/(.*)",
       "dest": "/grades.js"
+    },
+    {
+      "src": ".*",
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
     }
   ]
 }
