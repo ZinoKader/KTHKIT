@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from login import *
 from grades import *
 from profile import *
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
+CORS(app)
 
 
 @app.route('/grades', methods=['GET'])
