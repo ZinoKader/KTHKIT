@@ -15,7 +15,7 @@ const Grades = ({ ctx }) => {
       cookieEmail &&
         cookiePassword &&
         getGrades(cookieEmail, cookiePassword).then(({ data }) => {
-          setGrades(data);
+          setGrades(data[0].finishedCourses);
         });
     })();
   }, []);
@@ -25,32 +25,33 @@ const Grades = ({ ctx }) => {
       <section className="section">
         <div className="container">
           <h1 className="title">Dina kurser</h1>
-          <div className="card">
-            <div className="card-content">
-              <ul>
-                <div className="content">
-                  {grades.length === 0 && (
-                    <div className="progressContainer">
-                      <p>Hämtar kurser från KTH</p>
-                      <progress
-                        className="progress is-medium is-dark"
-                        max="100"
-                      ></progress>
+          <div className="card-content">
+            <ul>
+              <div className="content">
+                {grades.length === 0 && (
+                  <div className="progressContainer">
+                    <p>Hämtar kurser från KTH</p>
+                    <progress className="progress is-medium is-dark" max="100" />
+                  </div>
+                )}
+                {grades.map((gradeItem, index) => (
+                  <li key={index}>
+                    <div className="box gradeContainer">
+                      <p>
+                        <strong>
+                          Kurs: {gradeItem.courseCode} {gradeItem.courseName}
+                        </strong>
+                      </p>
+                      <p>Omfattning:{gradeItem.courseCredits} hp</p>
+                      <p>
+                        Betyg:
+                        {gradeItem.courseGrade}
+                      </p>
                     </div>
-                  )}
-                  {grades.map((gradeItem, index) => (
-                    <li key={index}>
-                      <div className="box gradeContainer">
-                        <p>
-                          {gradeItem.name}, {gradeItem.credits},{" "}
-                          {gradeItem.grade}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
-                </div>
-              </ul>
-            </div>
+                  </li>
+                ))}
+              </div>
+            </ul>
           </div>
         </div>
       </section>

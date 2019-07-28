@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { useGlobal } from "reactn";
 import Layout from "../components/Layout";
-import { kth_mail } from "../global/global";
-import classnames from "classnames";
 import "./index.scss";
 
 const Home = ({ ctx }) => {

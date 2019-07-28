@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Router from "next/router";
-import { getProfile, getGrades } from "../../api/api";
 import { getCookies, setCookies } from "cookies-next";
+import classnames from "classnames";
+import { getProfile, getGrades } from "../../api/api";
 import Layout from "../../components/Layout";
 import { kth_mail_domain } from "../../global/global";
-import classnames from "classnames";
 import styles from "./styles.scss";
 import {
   setProfileCookies,
@@ -96,9 +96,9 @@ const Login = ({ ctx, from }) => {
                         value={email}
                         type="email"
                         placeholder="jag@kth.se"
-                      ></input>
+                      />
                       <span className="icon is-small is-left">
-                        <i className="fas fa-envelope"></i>
+                        <i className="fas fa-envelope" />
                       </span>
                     </div>
                     <p
@@ -117,9 +117,9 @@ const Login = ({ ctx, from }) => {
                         value={password}
                         type="password"
                         placeholder="lösenord"
-                      ></input>
+                      />
                       <span className="icon is-small is-left">
-                        <i className="fas fa-lock"></i>
+                        <i className="fas fa-lock" />
                       </span>
                     </div>
                     <p
@@ -158,7 +158,7 @@ const Login = ({ ctx, from }) => {
 
 Login.getInitialProps = ({ ctx, query }) => {
   if (query != null && query.from != null) {
-    let from = query.from;
+    const { from } = query;
     return { ctx, from };
   }
   return { ctx };

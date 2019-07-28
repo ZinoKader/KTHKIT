@@ -5,7 +5,6 @@ import classnames from "classnames";
 import Layout from "../../components/Layout";
 import { getProfile } from "../../api/api";
 import {
-  getAuthCookies,
   setProfileState,
   setProfileCookies,
   setAuthState,

@@ -1,13 +1,6 @@
 {
-  "version": 2,
-  "public": false,
-  "name": "KTHKIT",
-  "builds": [
-    { "src": "next.config.js", "use": "@now/next" },
-    { "src": "404.html", "use": "@now/static" }
-  ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "status": 404, "dest": "404.html" }
-  ]
+	"version": 2,
+	"public": false,
+	"name": "KTHKIT",
+	"builds": [{ "src": "next.config.js", "use": "@now/next" }]
 }

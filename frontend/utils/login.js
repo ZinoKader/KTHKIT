@@ -11,7 +11,7 @@ export const setAuthCookies = (ctx, email, password) => {
   setCookies(ctx, "password", password);
 };
 
-export const setAuthState = (ctx, setEmail, setPassword) => {
+export const setAuthState = async (ctx, setEmail, setPassword) => {
   setEmail(getCookies(ctx, "email"));
   setPassword(getCookies(ctx, "password"));
 };
@@ -21,7 +21,7 @@ export const setProfileCookies = (ctx, name, surName, imageUrl) => {
   setCookies(ctx, "profileimageurl", imageUrl);
 };
 
-export const setProfileState = (ctx, setFullName, setProfileImageUrl) => {
+export const setProfileState = async (ctx, setFullName, setProfileImageUrl) => {
   getCookies(ctx, "fullname") != null &&
     setFullName(getCookies(ctx, "fullname"));
   getCookies(ctx, "profileimageurl") != null &&
@@ -33,7 +33,7 @@ export const isLoggedIn = ctx => {
   return cookieEmail != null && cookiePassword != null;
 };
 
-export const redirectIfLoggedOut = (ctx, router) => {
+export const redirectIfLoggedOut = async (ctx, router) => {
   const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
   (async () => {
     !(cookieEmail && cookiePassword) &&
