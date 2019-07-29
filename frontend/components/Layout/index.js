@@ -108,7 +108,7 @@ const Layout = ({ children, ctx, title }) => {
         </nav>
       </header>
 
-      {children}
+      <div className="root">{children}</div>
 
       <footer className="footer">
         <div className="content has-text-centered">
