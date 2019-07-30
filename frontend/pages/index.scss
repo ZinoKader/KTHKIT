@@ -12,6 +12,7 @@
 
 .box {
   transition: 0.3s;
+  padding: 1.55rem;
   &:hover {
     cursor: pointer;
     background-color: $g-hoverWhite;

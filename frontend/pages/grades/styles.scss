@@ -1,15 +1,79 @@
+@import "./global/global.scss";
+
 .progressContainer {
   > p {
     text-align: center;
+    margin: 10px;
   }
 }
 
 .content {
+  text-align: center;
   > :first-child {
     margin-top: 10px;
   }
 }
 
+.grades {
+  font-size: larger;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
 .gradeContainer {
   margin-bottom: 25px;
+}
+
+.gradesExplanationContainer {
+  padding: 0 !important;
+  margin: 0 auto 50px auto;
+  cursor: auto;
+
+  .gradesTooltip::before,
+  .gradesTooltip::after {
+    font-weight: normal;
+    text-transform: initial;
+    border-radius: 6px !important;
+    border: none !important;
+    font-size: 0.8rem !important;
+    background: white !important;
+    color: #363636 !important;
+    cursor: pointer;
+  }
+
+  .gradesTooltip::before {
+    box-shadow: rgba(0, 0, 0, 0.2) 1px 3px 6px -2px,
+      rgba(0, 0, 0, 0.14) 0px -1px 3px 0px,
+      rgba(0, 0, 0, 0.12) 0px -1px 10px 5px;
+  }
+
+  .tooltip.is-tooltip-multiline::before {
+    @include sm {
+      max-width: 10rem;
+      min-width: 10rem;
+    }
+  }
+
+  .card-header {
+    box-shadow: none;
+  }
+
+  .card-header-title {
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .card-footer {
+    padding-top: 10px;
+  }
+
+  .card-footer a {
+    @include md {
+      font-size: smaller;
+    }
+  }
+
+  .card-footer-item:not(:last-child) {
+    border-right: 0;
+  }
 }
