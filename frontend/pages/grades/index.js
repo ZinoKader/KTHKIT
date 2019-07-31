@@ -155,7 +155,6 @@ const Grades = ({ ctx }) => {
                             <p>Betyg: </p>
                             <div className="select">
                               <select
-                                defaultValue={gradeItem.courseGrade}
                                 onChange={e => {
                                   const newGrades = cloneDeep(grades);
                                   let gradeItemToEdit = newGrades.filter(
@@ -170,7 +169,16 @@ const Grades = ({ ctx }) => {
                               >
                                 {Object.keys(gradeWeights).map(
                                   (gradeWeight, i) => (
-                                    <option key={i}>{gradeWeight}</option>
+                                    <option
+                                      key={i}
+                                      selected={
+                                        gradeWeight === gradeItem.courseGrade
+                                      }
+                                    >
+                                      {gradeWeight === gradeItem.courseGrade
+                                        ? gradeItem.courseGrade
+                                        : gradeWeight}
+                                    </option>
                                   )
                                 )}
                               </select>
