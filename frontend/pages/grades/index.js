@@ -32,8 +32,8 @@ const Grades = ({ ctx }) => {
       .filter(courseGrade => courseGrade !== 0)
       .reduce((total, courseGrade, i, arr) => {
         if (i === arr.length - 1) {
-          return ((total + courseGrade) / arr.length).toFixed(
-            GRADE_ROUND_PRECISION
+          return parseFloat(
+            ((total + courseGrade) / arr.length).toFixed(GRADE_ROUND_PRECISION)
           );
         }
         return total + courseGrade;
@@ -56,7 +56,9 @@ const Grades = ({ ctx }) => {
       gradeProduct += gradeItem.courseGrade * gradeItem.courseCredits;
       creditSum += gradeItem.courseCredits;
     }
-    return (gradeProduct / creditSum).toFixed(GRADE_ROUND_PRECISION);
+    return parseFloat(
+      (gradeProduct / creditSum).toFixed(GRADE_ROUND_PRECISION)
+    );
   };
 
   return (
@@ -122,7 +124,36 @@ const Grades = ({ ctx }) => {
                             </strong>
                           </p>
                           <p>Omfattning: {gradeItem.courseCredits} hp</p>
-                          <p>Betyg: {gradeItem.courseGrade}</p>
+                          <div className="gradeSelectContainer">
+                            <p>Betyg: </p>
+                            <div class="select">
+                              <select
+                                onChange={e => {
+                                  const newGrades = [...grades];
+                                  let gradeItemToEdit = newGrades.filter(
+                                    newGradeItem => {
+                                      return newGradeItem === gradeItem;
+                                    }
+                                  )[0];
+                                  gradeItemToEdit.courseGrade = e.target.value;
+                                  setGrades(newGrades);
+                                }}
+                                className="gradeSelect"
+                              >
+                                {Object.keys(gradeWeights).map(gradeWeight => (
+                                  <option
+                                    selected={
+                                      gradeWeight === gradeItem.courseGrade
+                                    }
+                                  >
+                                    {gradeWeight === gradeItem.courseGrade
+                                      ? gradeItem.courseGrade
+                                      : gradeWeight}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
                         </div>
                       </li>
                     ))}
