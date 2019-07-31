@@ -4,6 +4,8 @@ import { getGrades } from "../../api/api";
 import Layout from "../../components/Layout";
 import "./styles.scss";
 import { getAuthCookies, redirectIfLoggedOut } from "../../utils/login";
+import cloneDeep from "lodash/cloneDeep";
+import isEqual from "lodash/isEqual";
 
 const GRADE_ROUND_PRECISION = 3;
 
@@ -11,6 +13,7 @@ const Grades = ({ ctx }) => {
   const gradeWeights = { A: 5, B: 4.5, C: 4, D: 3.5, E: 3, P: 0 };
 
   const [grades, setGrades] = useState([]);
+  const [originalGrades, setOriginalGrades] = useState([]);
   const [unfinishedCourses, setUnfinishedCourses] = useState([]);
 
   useEffect(() => {
@@ -20,13 +23,14 @@ const Grades = ({ ctx }) => {
       cookieEmail &&
         cookiePassword &&
         getGrades(cookieEmail, cookiePassword).then(({ data }) => {
+          setOriginalGrades(data[0].finishedCourses);
           setGrades(data[0].finishedCourses);
           setUnfinishedCourses(data[1].unfinishedCourses);
         });
     })();
   }, []);
 
-  const calculateUnweightedGrade = grades => {
+  const calculateUnweightedGrade = () => {
     return grades
       .map(gradeItem => gradeWeights[gradeItem.courseGrade])
       .filter(courseGrade => courseGrade !== 0)
@@ -40,7 +44,7 @@ const Grades = ({ ctx }) => {
       });
   };
 
-  const calculateWeightedGrade = grades => {
+  const calculateWeightedGrade = () => {
     const filteredGrades = grades
       .map(gradeItem => {
         return {
@@ -59,6 +63,18 @@ const Grades = ({ ctx }) => {
     return parseFloat(
       (gradeProduct / creditSum).toFixed(GRADE_ROUND_PRECISION)
     );
+  };
+
+  const gradesChanged = () => {
+    const currentCourseGrades = grades.map(gradeItem => gradeItem.courseGrade);
+    const originalCourseGrades = originalGrades.map(
+      gradeItem => gradeItem.courseGrade
+    );
+    return !isEqual(currentCourseGrades, originalCourseGrades);
+  };
+
+  const resetOriginalGrades = () => {
+    setGrades(originalGrades);
   };
 
   return (
@@ -83,11 +99,11 @@ const Grades = ({ ctx }) => {
                   <div className="card-content">
                     <div className="grades content">
                       Oviktat:&nbsp;
-                      {calculateUnweightedGrade(grades)}
+                      {calculateUnweightedGrade()}
                       &nbsp;/ 5
                       <br />
                       Viktat:&nbsp;
-                      {calculateWeightedGrade(grades)}
+                      {calculateWeightedGrade()}
                       &nbsp;/ 5
                     </div>
                     <footer className="card-footer">
@@ -110,13 +126,24 @@ const Grades = ({ ctx }) => {
                         Viktat/oviktat?
                       </a>
                     </footer>
+                    {gradesChanged() && (
+                      <div className="content">
+                        <div className="is-divider"></div>
+                        <a
+                          onClick={() => resetOriginalGrades()}
+                          className="button is-dark"
+                        >
+                          Återställ
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <ul>
                   <div className="content">
-                    {grades.map((gradeItem, index) => (
-                      <li key={index}>
+                    {grades.map(gradeItem => (
+                      <li key={gradeItem.courseCode}>
                         <div className="box gradeContainer">
                           <p>
                             <strong>
@@ -126,31 +153,34 @@ const Grades = ({ ctx }) => {
                           <p>Omfattning: {gradeItem.courseCredits} hp</p>
                           <div className="gradeSelectContainer">
                             <p>Betyg: </p>
-                            <div class="select">
+                            <div className="select">
                               <select
                                 onChange={e => {
-                                  const newGrades = [...grades];
+                                  const newGrades = cloneDeep(grades);
                                   let gradeItemToEdit = newGrades.filter(
-                                    newGradeItem => {
-                                      return newGradeItem === gradeItem;
-                                    }
+                                    newGradeItem =>
+                                      newGradeItem.courseCode ===
+                                      gradeItem.courseCode
                                   )[0];
                                   gradeItemToEdit.courseGrade = e.target.value;
                                   setGrades(newGrades);
                                 }}
                                 className="gradeSelect"
                               >
-                                {Object.keys(gradeWeights).map(gradeWeight => (
-                                  <option
-                                    selected={
-                                      gradeWeight === gradeItem.courseGrade
-                                    }
-                                  >
-                                    {gradeWeight === gradeItem.courseGrade
-                                      ? gradeItem.courseGrade
-                                      : gradeWeight}
-                                  </option>
-                                ))}
+                                {Object.keys(gradeWeights).map(
+                                  (gradeWeight, i) => (
+                                    <option
+                                      key={i}
+                                      selected={
+                                        gradeWeight === gradeItem.courseGrade
+                                      }
+                                    >
+                                      {gradeWeight === gradeItem.courseGrade
+                                        ? gradeItem.courseGrade
+                                        : gradeWeight}
+                                    </option>
+                                  )
+                                )}
                               </select>
                             </div>
                           </div>
