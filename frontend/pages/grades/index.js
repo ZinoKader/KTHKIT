@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
-import { getGrades } from "../../api/api";
+import { getCourses } from "../../api/api";
 import Layout from "../../components/Layout";
 import "./styles.scss";
+import Courses from "../../components/Courses";
 import { getAuthCookies, redirectIfLoggedOut } from "../../utils/login";
 import cloneDeep from "lodash/cloneDeep";
 import isEqual from "lodash/isEqual";
@@ -12,9 +13,12 @@ const GRADE_ROUND_PRECISION = 3;
 const Grades = ({ ctx }) => {
   const gradeWeights = { A: 5, B: 4.5, C: 4, D: 3.5, E: 3, P: 0 };
 
-  const [grades, setGrades] = useState([]);
-  const [originalGrades, setOriginalGrades] = useState([]);
+  const [finishedCourses, setFinishedCourses] = useState([]);
+  const [originalCourses, setOriginalCourses] = useState([]);
   const [unfinishedCourses, setUnfinishedCourses] = useState([]);
+  const [originalUnfinishedCourses, setOriginalUnfinishedCourses] = useState(
+    []
+  );
 
   useEffect(() => {
     redirectIfLoggedOut(ctx, Router);
@@ -22,17 +26,18 @@ const Grades = ({ ctx }) => {
     (async () => {
       cookieEmail &&
         cookiePassword &&
-        getGrades(cookieEmail, cookiePassword).then(({ data }) => {
-          setOriginalGrades(data[0].finishedCourses);
-          setGrades(data[0].finishedCourses);
+        getCourses(cookieEmail, cookiePassword).then(({ data }) => {
+          setOriginalCourses(data[0].finishedCourses);
+          setOriginalUnfinishedCourses(data[1].unfinishedCourses);
+          setFinishedCourses(data[0].finishedCourses);
           setUnfinishedCourses(data[1].unfinishedCourses);
         });
     })();
   }, []);
 
   const calculateUnweightedGrade = () => {
-    return grades
-      .map(gradeItem => gradeWeights[gradeItem.courseGrade])
+    return finishedCourses
+      .map(courseItem => gradeWeights[courseItem.courseGrade])
       .filter(courseGrade => courseGrade !== 0)
       .reduce((total, courseGrade, i, arr) => {
         if (i === arr.length - 1) {
@@ -45,36 +50,67 @@ const Grades = ({ ctx }) => {
   };
 
   const calculateWeightedGrade = () => {
-    const filteredGrades = grades
-      .map(gradeItem => {
+    const filteredCourses = finishedCourses
+      .map(courseItem => {
         return {
-          courseGrade: gradeWeights[gradeItem.courseGrade],
-          courseCredits: gradeItem.courseCredits
+          courseGrade: gradeWeights[courseItem.courseGrade],
+          courseCredits: courseItem.courseCredits
         };
       })
       .filter(({ courseGrade }) => courseGrade !== 0);
 
     let gradeProduct = 0;
     let creditSum = 0;
-    for (const gradeItem of filteredGrades) {
-      gradeProduct += gradeItem.courseGrade * gradeItem.courseCredits;
-      creditSum += gradeItem.courseCredits;
+    for (const courseItem of filteredCourses) {
+      gradeProduct += courseItem.courseGrade * courseItem.courseCredits;
+      creditSum += courseItem.courseCredits;
     }
     return parseFloat(
       (gradeProduct / creditSum).toFixed(GRADE_ROUND_PRECISION)
     );
   };
 
+  const changeGrade = (courseItem, newGrade) => {
+    console.log(courseItem);
+    const newCourses = cloneDeep(finishedCourses);
+
+    console.log(newCourses, courseItem, newGrade);
+
+    const existingCourseItem = newCourses.filter(
+      newCourseItem => newCourseItem.courseCode === courseItem.courseCode
+    )[0];
+
+    if (existingCourseItem !== undefined) {
+      existingCourseItem.courseGrade = newGrade;
+      setFinishedCourses(newCourses);
+    } else {
+      // add a new course to finished courses, remove it from unfinished courses
+      const newCourse = courseItem;
+      newCourse.courseGrade = newGrade;
+      newCourses.push(newCourse);
+
+      const newUnfinishedCourses = unfinishedCourses.filter(
+        course => course.courseCode !== newCourse.courseCode
+      );
+
+      setFinishedCourses(newCourses);
+      setUnfinishedCourses(newUnfinishedCourses);
+    }
+  };
+
   const gradesChanged = () => {
-    const currentCourseGrades = grades.map(gradeItem => gradeItem.courseGrade);
-    const originalCourseGrades = originalGrades.map(
-      gradeItem => gradeItem.courseGrade
+    const currentCourseGrades = finishedCourses.map(
+      courseItem => courseItem.courseGrade
+    );
+    const originalCourseGrades = originalCourses.map(
+      courseItem => courseItem.courseGrade
     );
     return !isEqual(currentCourseGrades, originalCourseGrades);
   };
 
-  const resetOriginalGrades = () => {
-    setGrades(originalGrades);
+  const resetOriginalCourses = () => {
+    setFinishedCourses(originalCourses);
+    setUnfinishedCourses(originalUnfinishedCourses);
   };
 
   return (
@@ -83,14 +119,14 @@ const Grades = ({ ctx }) => {
         <div className="container">
           <h1 className="title">Dina kurser</h1>
           <div className="card-content">
-            {grades.length === 0 && unfinishedCourses.length === 0 && (
+            {finishedCourses.length === 0 && unfinishedCourses.length === 0 && (
               <div className="progressContainer">
                 <p>Hämtar kurser från KTH</p>
                 <progress className="progress is-medium is-dark" max="100" />
               </div>
             )}
 
-            {grades.length !== 0 && (
+            {finishedCourses.length !== 0 && (
               <>
                 <div className="gradesExplanationContainer box">
                   <header className="card-header">
@@ -130,7 +166,7 @@ const Grades = ({ ctx }) => {
                       <div className="content">
                         <div className="is-divider"></div>
                         <a
-                          onClick={() => resetOriginalGrades()}
+                          onClick={() => resetOriginalCourses()}
                           className="button is-dark"
                         >
                           Återställ
@@ -139,56 +175,11 @@ const Grades = ({ ctx }) => {
                     )}
                   </div>
                 </div>
-
-                <ul>
-                  <div className="content">
-                    {grades.map(gradeItem => (
-                      <li key={gradeItem.courseCode}>
-                        <div className="box gradeContainer">
-                          <p>
-                            <strong>
-                              {gradeItem.courseCode} {gradeItem.courseName}
-                            </strong>
-                          </p>
-                          <p>Omfattning: {gradeItem.courseCredits} hp</p>
-                          <div className="gradeSelectContainer">
-                            <p>Betyg: </p>
-                            <div className="select">
-                              <select
-                                onChange={e => {
-                                  const newGrades = cloneDeep(grades);
-                                  let gradeItemToEdit = newGrades.filter(
-                                    newGradeItem =>
-                                      newGradeItem.courseCode ===
-                                      gradeItem.courseCode
-                                  )[0];
-                                  gradeItemToEdit.courseGrade = e.target.value;
-                                  setGrades(newGrades);
-                                }}
-                                className="gradeSelect"
-                              >
-                                {Object.keys(gradeWeights).map(
-                                  (gradeWeight, i) => (
-                                    <option
-                                      key={i}
-                                      selected={
-                                        gradeWeight === gradeItem.courseGrade
-                                      }
-                                    >
-                                      {gradeWeight === gradeItem.courseGrade
-                                        ? gradeItem.courseGrade
-                                        : gradeWeight}
-                                    </option>
-                                  )
-                                )}
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </div>
-                </ul>
+                <Courses
+                  courses={finishedCourses}
+                  changeGrade={changeGrade}
+                  withGrades
+                />
               </>
             )}
 
@@ -198,22 +189,10 @@ const Grades = ({ ctx }) => {
                   className="is-divider"
                   data-content="Ej avslutade kurser"
                 ></div>
-                <ul>
-                  <div className="content">
-                    {unfinishedCourses.map((courseItem, index) => (
-                      <li key={index}>
-                        <div className="box gradeContainer">
-                          <p>
-                            <strong>
-                              {courseItem.courseCode} {courseItem.courseName}
-                            </strong>
-                          </p>
-                          <p>Omfattning: {courseItem.courseCredits} hp</p>
-                        </div>
-                      </li>
-                    ))}
-                  </div>
-                </ul>
+                <Courses
+                  changeGrade={changeGrade}
+                  courses={unfinishedCourses}
+                />
               </>
             )}
           </div>

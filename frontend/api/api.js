@@ -14,7 +14,7 @@ export const getProfile = email => {
   });
 };
 
-export const getGrades = (email, password) => {
+export const getCourses = (email, password) => {
   const username = email.replace(kth_mail_domain, "");
   return axios.get(gradesApi, {
     params: {
