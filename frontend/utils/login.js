@@ -42,6 +42,7 @@ export const redirectIfLoggedOut = async (ctx, router) => {
         query: { from: router.pathname }
       });
   })();
+  return !(cookieEmail && cookiePassword);
 };
 
 export const deleteAuthAndProfileCookies = ctx => {

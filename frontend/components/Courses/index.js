@@ -1,7 +1,6 @@
 import React from "react";
+import { gradeWeights } from "../../global/global";
 import "./styles.scss";
-
-const gradeWeights = { A: 5, B: 4.5, C: 4, D: 3.5, E: 3, P: 0 };
 
 const Courses = ({ courses, changeGrade, withGrades }) => {
   return (

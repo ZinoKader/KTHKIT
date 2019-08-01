@@ -1,38 +1,39 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
-import { getCourses } from "../../api/api";
+import * as api from "../../api/api";
 import Layout from "../../components/Layout";
 import "./styles.scss";
+import { GRADE_ROUND_PRECISION, gradeWeights } from "../../global/global";
 import Courses from "../../components/Courses";
 import { getAuthCookies, redirectIfLoggedOut } from "../../utils/login";
 import cloneDeep from "lodash/cloneDeep";
 import isEqual from "lodash/isEqual";
 
-const GRADE_ROUND_PRECISION = 3;
-
 const Grades = ({ ctx }) => {
-  const gradeWeights = { A: 5, B: 4.5, C: 4, D: 3.5, E: 3, P: 0 };
-
   const [finishedCourses, setFinishedCourses] = useState([]);
-  const [originalCourses, setOriginalCourses] = useState([]);
   const [unfinishedCourses, setUnfinishedCourses] = useState([]);
+  const [originalCourses, setOriginalCourses] = useState([]);
   const [originalUnfinishedCourses, setOriginalUnfinishedCourses] = useState(
     []
   );
 
   useEffect(() => {
-    redirectIfLoggedOut(ctx, Router);
-    const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
-    (async () => {
-      cookieEmail &&
-        cookiePassword &&
-        getCourses(cookieEmail, cookiePassword).then(({ data }) => {
-          setOriginalCourses(data[0].finishedCourses);
-          setOriginalUnfinishedCourses(data[1].unfinishedCourses);
-          setFinishedCourses(data[0].finishedCourses);
-          setUnfinishedCourses(data[1].unfinishedCourses);
-        });
-    })();
+    const fetchData = async () => {
+      await redirectIfLoggedOut(ctx, Router);
+      const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
+      if (cookieEmail && cookiePassword) {
+        const { data } = await api.getCourses(cookieEmail, cookiePassword);
+        const [finished, unfinished] = [
+          data[0].finishedCourses,
+          data[1].unfinishedCourses
+        ];
+        setFinishedCourses(finished);
+        setUnfinishedCourses(unfinished);
+        setOriginalCourses(finished);
+        setOriginalUnfinishedCourses(unfinished);
+      }
+    };
+    fetchData();
   }, []);
 
   const calculateUnweightedGrade = () => {
@@ -71,10 +72,7 @@ const Grades = ({ ctx }) => {
   };
 
   const changeGrade = (courseItem, newGrade) => {
-    console.log(courseItem);
     const newCourses = cloneDeep(finishedCourses);
-
-    console.log(newCourses, courseItem, newGrade);
 
     const existingCourseItem = newCourses.filter(
       newCourseItem => newCourseItem.courseCode === courseItem.courseCode
@@ -200,6 +198,10 @@ const Grades = ({ ctx }) => {
       </section>
     </Layout>
   );
+};
+
+Grades.getInitialProps = async ({ ctx }) => {
+  //await redirectIfLoggedOut(ctx, Router);
 };
 
 export default Grades;
