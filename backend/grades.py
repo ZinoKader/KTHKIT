@@ -57,7 +57,8 @@ def get_unfinished_courses(session, uid):
         course_info = course[unfin_result_key]
         course_name = course_info[course_name_key][sv_lang_key]
         course_code = course_info[course_code_key]
-        course_credits = course_info[course_credits_key]
+        # api returns credits as string for unfinished ¯\_(ツ)_/¯
+        course_credits = float(course_info[course_credits_key])
         grades.append({'courseName': course_name, 'courseCode': course_code,
                        'courseCredits': course_credits})
 
