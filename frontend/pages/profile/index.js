@@ -26,8 +26,10 @@ const Profile = ({ ctx }) => {
   const [refreshFailed, setRefreshFailed] = useState("false");
 
   useEffect(() => {
+    setLoading(true);
     setAuthState(ctx, setEmail, () => {});
     setProfileState(ctx, setFullName, setProfileImageUrl);
+    setLoading(false);
   }, []);
 
   const refreshProfile = () => {
@@ -59,7 +61,7 @@ const Profile = ({ ctx }) => {
                   <img className="is-rounded" src={profileImageUrl} />
                 </figure>
                 <p>{fullName}</p>
-                {fullName.length === 0 && (
+                {fullName.length === 0 && !loading && (
                   <p className="help">
                     Din KTH-profil är <b>privat</b>. För att KTHKIT ska fungera
                     optimalt behöver din profil vara <b>publik</b>. Att ladda

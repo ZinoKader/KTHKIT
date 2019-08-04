@@ -35,17 +35,18 @@ export const isLoggedIn = ctx => {
 
 export const redirectIfLoggedOut = (ctx, router) => {
   const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
-  if (ctx.res) {
-    ctx.res.writeHead(302, {
-      Location: "/login"
-    });
-    ctx.res.end();
-  } else {
-    !(cookieEmail && cookiePassword) &&
+  if (!(cookieEmail && cookiePassword)) {
+    if (ctx.res) {
+      ctx.res.writeHead(302, {
+        Location: "/login"
+      });
+      ctx.res.end();
+    } else {
       router.push({
         pathname: "/login",
         query: { from: ctx.pathname }
       });
+    }
   }
   return !(cookieEmail && cookiePassword);
 };
