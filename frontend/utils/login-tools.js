@@ -39,7 +39,7 @@ export const redirectIfLoggedOut = async (ctx, router) => {
     !(cookieEmail && cookiePassword) &&
       router.push({
         pathname: "/login",
-        query: { from: router.pathname }
+        query: { from: ctx.pathname }
       });
   })();
   return !(cookieEmail && cookiePassword);

@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import Router from "next/router";
-import { getCookies, setCookies } from "cookies-next";
 import classnames from "classnames";
-import { getProfile, getGrades } from "../../api/api";
+import { getProfile } from "../../api/api";
 import Layout from "../../components/Layout";
 import { kth_mail_domain } from "../../global/global";
-import styles from "./styles.scss";
+import "./styles.scss";
 import {
   setProfileCookies,
   setAuthCookies,
   deleteAuthAndProfileCookies,
   isLoggedIn
-} from "../../utils/login";
+} from "../../utils/login-tools";
 
 const Login = ({ ctx, from }) => {
   const [email, setEmail] = useState("");

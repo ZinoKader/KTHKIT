@@ -7,7 +7,7 @@ import {
   deleteAuthAndProfileCookies,
   setProfileState,
   isLoggedIn
-} from "../../utils/login";
+} from "../../utils/login-tools";
 import styles from "./styles.scss";
 
 const Layout = ({ children, ctx, title }) => {
