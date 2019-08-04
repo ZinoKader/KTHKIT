@@ -5,7 +5,7 @@ import "./index.scss";
 
 const Home = ({ ctx }) => {
   return (
-    <Layout ctx={ctx}>
+    <Layout title="Den kompletta verktygslådan för KTH-studenter" ctx={ctx}>
       <section className="section">
         <div className="container">
           <h1 className="title">Välj tjänst</h1>

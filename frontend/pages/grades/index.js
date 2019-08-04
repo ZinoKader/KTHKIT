@@ -5,7 +5,7 @@ import Layout from "../../components/Layout";
 import "./styles.scss";
 import { GRADE_ROUND_PRECISION, gradeWeights } from "../../global/global";
 import Courses from "../../components/Courses";
-import { getAuthCookies, redirectIfLoggedOut } from "../../utils/login";
+import { getAuthCookies, redirectIfLoggedOut } from "../../utils/login-tools";
 import cloneDeep from "lodash/cloneDeep";
 import isEqual from "lodash/isEqual";
 
@@ -19,7 +19,6 @@ const Grades = ({ ctx }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await redirectIfLoggedOut(ctx, Router);
       const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
       if (cookieEmail && cookiePassword) {
         const { data } = await api.getCourses(cookieEmail, cookiePassword);
@@ -112,10 +111,10 @@ const Grades = ({ ctx }) => {
   };
 
   return (
-    <Layout ctx={ctx}>
+    <Layout title="Räkna snitt" ctx={ctx}>
       <section className="section">
         <div className="container">
-          <h1 className="title">Dina kurser</h1>
+          <h1 className="title">Räkna snitt</h1>
           <div className="card-content">
             {finishedCourses.length === 0 && unfinishedCourses.length === 0 && (
               <div className="progressContainer">
@@ -200,8 +199,8 @@ const Grades = ({ ctx }) => {
   );
 };
 
-Grades.getInitialProps = async ({ ctx }) => {
-  //await redirectIfLoggedOut(ctx, Router);
+Grades.getInitialProps = async ctx => {
+  await redirectIfLoggedOut(ctx, Router);
 };
 
 export default Grades;

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
-import Link from "next/link";
 import classnames from "classnames";
 import Layout from "../../components/Layout";
 import { getProfile } from "../../api/api";
@@ -9,7 +8,7 @@ import {
   setProfileCookies,
   setAuthState,
   redirectIfLoggedOut
-} from "../../utils/login";
+} from "../../utils/login-tools";
 import {
   profile_picture_placeholder_path,
   kth_profile_edit_url
@@ -27,7 +26,6 @@ const Profile = ({ ctx }) => {
   const [refreshFailed, setRefreshFailed] = useState("false");
 
   useEffect(() => {
-    redirectIfLoggedOut(ctx, Router);
     setAuthState(ctx, setEmail, () => {});
     setProfileState(ctx, setFullName, setProfileImageUrl);
   }, []);
@@ -50,7 +48,7 @@ const Profile = ({ ctx }) => {
   };
 
   return (
-    <Layout ctx={ctx}>
+    <Layout title="Din profil" ctx={ctx}>
       <section className="section">
         <div className="container">
           <h1 className="title">Din profil</h1>
@@ -100,6 +98,10 @@ const Profile = ({ ctx }) => {
       </section>
     </Layout>
   );
+};
+
+Profile.getInitialProps = async ctx => {
+  await redirectIfLoggedOut(ctx, Router);
 };
 
 export default Profile;
