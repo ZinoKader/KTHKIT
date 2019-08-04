@@ -200,7 +200,7 @@ const Grades = ({ ctx }) => {
 };
 
 Grades.getInitialProps = async ctx => {
-  await redirectIfLoggedOut(ctx, Router);
+  redirectIfLoggedOut(ctx, Router);
 };
 
 export default Grades;

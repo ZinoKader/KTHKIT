@@ -101,7 +101,7 @@ const Profile = ({ ctx }) => {
 };
 
 Profile.getInitialProps = async ctx => {
-  await redirectIfLoggedOut(ctx, Router);
+  redirectIfLoggedOut(ctx, Router);
 };
 
 export default Profile;
