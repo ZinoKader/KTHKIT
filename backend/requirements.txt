@@ -1,3 +1,6 @@
 flask
 flask-cors
 requests
+firebase-admin
+pyasn1-modules
+bs4

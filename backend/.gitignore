@@ -1,3 +1,6 @@
+# auth stuff
+serviceaccount.json
+kthaccount.json
 
 # misc
 .DS_Store
