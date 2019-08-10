@@ -15,6 +15,10 @@ export default class MyDocument extends Document {
             content="KTHKIT - Den kompletta verktygslådan för KTH-studenten.
              Räkna snittbetyg, ladda ned gamla tentor, se tentastatistik och mer."
           />
+          <meta
+            name="google-site-verification"
+            content="5tYS8uhSbcanS0LFMN2dA9qEev0Y17Rdwl-JPhFcy7s"
+          />
           <meta name="msapplication-TileColor" content="#fafafa" />
           <meta
             name="msapplication-config"

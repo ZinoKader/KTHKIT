@@ -39,7 +39,9 @@ def updatestatistics_endpoint():
 
     auth_session, _ = login.login_student(
         kth_account['username'], kth_account['password'])
-    statistics.update_data(auth_session)
+
+    update_status = statistics.update_data(auth_session)
+    return update_status
 
 
 if __name__ == '__main__':
