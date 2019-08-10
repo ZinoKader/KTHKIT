@@ -29,8 +29,8 @@ const Home = ({ ctx }) => {
             <Link href="/grades">
               <div className="tile is-4 is-parent">
                 <div className="tile is-child box">
-                  <p className="subtitle">Räkna snitt</p>
-                  <p>Räkna ut ditt snittbetyg</p>
+                  <p className="subtitle">Räkna betygssnitt</p>
+                  <p>Räkna ut ditt betygssnitt</p>
                 </div>
               </div>
             </Link>

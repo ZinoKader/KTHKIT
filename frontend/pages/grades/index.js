@@ -111,7 +111,7 @@ const Grades = ({ ctx }) => {
   };
 
   return (
-    <Layout title="Räkna snitt" ctx={ctx}>
+    <Layout title="Räkna betygssnitt" ctx={ctx}>
       <section className="section">
         <div className="container">
           <h1 className="title">Räkna snitt</h1>

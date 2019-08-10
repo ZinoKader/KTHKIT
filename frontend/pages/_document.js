@@ -13,7 +13,7 @@ export default class MyDocument extends Document {
           <meta
             name="description"
             content="KTHKIT - Den kompletta verktygslådan för KTH-studenten.
-             Räkna snittbetyg, ladda ned gamla tentor, se tentastatistik och mer."
+             Räkna betygssnitt, ladda ned gamla tentor, se tentastatistik och mer."
           />
           <meta
             name="google-site-verification"
