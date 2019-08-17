@@ -21,8 +21,11 @@ def init_db():
     return db
 
 
-def fetch_statistics_data():
-    pass
+def get_all_courses():
+    db = init_db()
+    courses_ref = db.collection('examstatistics').stream()
+    courses = {'courses': [course.id for course in courses_ref]}
+    return courses
 
 
 def update_data(session):

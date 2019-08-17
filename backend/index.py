@@ -31,7 +31,12 @@ def profile_endpoint():
     return jsonify(profile_information)
 
 
-@app.route('/updatestatistics', methods=['GET'])
+@app.route('/statistics/all-courses', methods=['GET'])
+def statistics_all_courses_endpoint():
+    return jsonify(statistics.get_all_courses())
+
+
+@app.route('/statistics/update', methods=['GET'])
 def updatestatistics_endpoint():
     f = open('kthaccount.json', 'r')
     kth_account = json.load(f)
