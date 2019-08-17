@@ -269,7 +269,8 @@ textarea {
   margin: 0; }
 
 html {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  height: 100%; }
 
 *, *::before, *::after {
   box-sizing: inherit; }
@@ -329,7 +330,10 @@ body {
   color: #4a4a4a;
   font-size: 1rem;
   font-weight: 400;
-  line-height: 1.5; }
+  line-height: 1.5;
+  position: relative;
+  padding-bottom: 5rem;
+  min-height: 100%; }
 
 a {
   color: $g-primaryDarkColor;
@@ -6801,9 +6805,12 @@ label.panel-block {
 .footer {
   background-color: #fafafa;
   padding: 2rem 1.5rem 2rem;
-  position: fixed;
+  position: absolute;
   width: 100%;
-  bottom: 0; }
+  bottom: 0;
+  right:0;
+  left:0; 
+}
 
 hr {
   background-color: #e8e8e8; }
