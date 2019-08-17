@@ -6800,7 +6800,10 @@ label.panel-block {
 
 .footer {
   background-color: #fafafa;
-  padding: 3rem 1.5rem 6rem; }
+  padding: 2rem 1.5rem 2rem;
+  position: fixed;
+  width: 100%;
+  bottom: 0; }
 
 hr {
   background-color: #e8e8e8; }
