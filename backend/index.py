@@ -21,7 +21,9 @@ def grades_endpoint():
     auth_session, uid = login.login_student(username, password)
     finished_courses = grades.get_finished_courses(auth_session, uid)
     unfinished_courses = grades.get_unfinished_courses(auth_session, uid)
-    return jsonify(finished_courses, unfinished_courses)
+    courses = {'finishedCourses': finished_courses,
+               'unfinishedCourses': unfinished_courses}
+    return jsonify(courses)
 
 
 @app.route('/profile', methods=['GET'])

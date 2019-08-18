@@ -21,10 +21,10 @@ const Grades = ({ ctx }) => {
     const fetchData = async () => {
       const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
       if (cookieEmail && cookiePassword) {
-        const { data } = await api.getCourses(cookieEmail, cookiePassword);
+        const { data } = await api.getCourseGrades(cookieEmail, cookiePassword);
         const [finished, unfinished] = [
-          data[0].finishedCourses,
-          data[1].unfinishedCourses
+          data.finishedCourses,
+          data.unfinishedCourses
         ];
         setFinishedCourses(finished);
         setUnfinishedCourses(unfinished);

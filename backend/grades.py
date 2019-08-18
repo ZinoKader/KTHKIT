@@ -42,10 +42,7 @@ def get_finished_courses(session, uid):
         course_grade = course_info[course_grade_key]
         grades.append({'courseName': course_name, 'courseCode': course_code,
                        'courseCredits': course_credits, 'courseGrade': course_grade})
-
-    finished_courses = {'finishedCourses': grades}
-
-    return finished_courses
+    return grades
 
 
 def get_unfinished_courses(session, uid):
@@ -62,6 +59,4 @@ def get_unfinished_courses(session, uid):
         course_credits = float(course_info[course_credits_key])
         grades.append({'courseName': course_name, 'courseCode': course_code,
                        'courseCredits': course_credits})
-
-    unfinished_courses = {'unfinishedCourses': grades}
-    return unfinished_courses
+    return grades
