@@ -1152,12 +1152,20 @@ a.has-text-danger:hover, a.has-text-danger:focus {
   box-shadow: none !important; }
 
 .box {
+  display: block;
+  color: #4a4a4a;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  transition: 0.3s;
+  padding: 1.55rem;
   background-color: white;
   border-radius: 6px;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-  color: #4a4a4a;
-  display: block;
-  padding: 1.25rem; }
+  &:hover {
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0px 3px 2px -5px rgba(0, 0, 0, 0.12),
+      2px 6px 6px 2px rgba(0, 0, 0, 0.12), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  }
+}
 
 a.box:hover, a.box:focus {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px $g-primaryColor; }
@@ -1989,14 +1997,9 @@ a.box:active {
       list-style-type: upper-roman; }
 
 .content ul {
-  list-style: disc outside;
-  margin-left: 2em;
-  margin-top: 1em; }
-  .content ul ul {
-    list-style-type: circle;
-    margin-top: 0.5em; }
-    .content ul ul ul {
-      list-style-type: square; }
+  list-style: none;
+    margin: auto;
+}
 
 .content dd {
   margin-left: 2em; }

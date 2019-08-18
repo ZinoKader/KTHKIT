@@ -4,7 +4,7 @@ import * as api from "../../api/api";
 import Layout from "../../components/Layout";
 import "./styles.scss";
 import { GRADE_ROUND_PRECISION, gradeWeights } from "../../global/global";
-import Courses from "../../components/Courses";
+import Course, { COURSE_TYPE } from "../../components/Course";
 import { getAuthCookies, redirectIfLoggedOut } from "../../utils/login-tools";
 import cloneDeep from "lodash/cloneDeep";
 import isEqual from "lodash/isEqual";
@@ -35,7 +35,7 @@ const Grades = ({ ctx }) => {
     fetchData();
   }, []);
 
-  const calculateUnweightedGrade = () => {
+  const unWeightedGradeAverage = () => {
     return finishedCourses
       .map(courseItem => gradeWeights[courseItem.courseGrade])
       .filter(courseGrade => courseGrade !== 0)
@@ -49,7 +49,7 @@ const Grades = ({ ctx }) => {
       });
   };
 
-  const calculateWeightedGrade = () => {
+  const weightedGradeAverage = () => {
     const filteredCourses = finishedCourses
       .map(courseItem => {
         return {
@@ -115,14 +115,15 @@ const Grades = ({ ctx }) => {
       <section className="section">
         <div className="container">
           <h1 className="title">Räkna snitt</h1>
-          <div className="card-content">
-            {finishedCourses.length === 0 && unfinishedCourses.length === 0 && (
-              <div className="progressContainer">
-                <p>Hämtar kurser från KTH</p>
-                <progress className="progress is-medium is-dark" max="100" />
-              </div>
-            )}
 
+          {finishedCourses.length === 0 && unfinishedCourses.length === 0 && (
+            <div className="progressContainer">
+              <p>Hämtar dina betyg från KTH/Ladok...</p>
+              <progress className="progress is-medium is-dark" max="100" />
+            </div>
+          )}
+
+          <div className="card-content">
             {finishedCourses.length !== 0 && (
               <>
                 <div className="gradesExplanationContainer box">
@@ -132,11 +133,11 @@ const Grades = ({ ctx }) => {
                   <div className="card-content">
                     <div className="grades content">
                       Oviktat:&nbsp;
-                      {calculateUnweightedGrade()}
+                      {unWeightedGradeAverage()}
                       &nbsp;/ 5
                       <br />
                       Viktat:&nbsp;
-                      {calculateWeightedGrade()}
+                      {weightedGradeAverage()}
                       &nbsp;/ 5
                     </div>
                     <footer className="card-footer">
@@ -172,25 +173,37 @@ const Grades = ({ ctx }) => {
                     )}
                   </div>
                 </div>
-                <Courses
-                  courses={finishedCourses}
-                  changeGrade={changeGrade}
-                  withGrades
-                />
+                <div className="content">
+                  <ul>
+                    {finishedCourses.map(courseItem => (
+                      <Course
+                        courseItem={courseItem}
+                        courseType={COURSE_TYPE.GRADE}
+                        changeGrade={changeGrade}
+                        isGraded
+                      />
+                    ))}
+                  </ul>
+                </div>
               </>
             )}
 
             {unfinishedCourses.length !== 0 && (
-              <>
-                <div
-                  className="is-divider"
-                  data-content="Ej avslutade kurser"
-                ></div>
-                <Courses
-                  changeGrade={changeGrade}
-                  courses={unfinishedCourses}
-                />
-              </>
+              <div className="content">
+                <ul>
+                  <div
+                    className="is-divider"
+                    data-content="Ej avslutade kurser"
+                  ></div>
+                  {unfinishedCourses.map(courseItem => (
+                    <Course
+                      courseItem={courseItem}
+                      courseType={COURSE_TYPE.GRADE}
+                      changeGrade={changeGrade}
+                    />
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         </div>

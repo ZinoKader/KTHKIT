@@ -18,7 +18,7 @@ const Home = ({ ctx }) => {
                 </div>
               </div>
             </Link>
-            <Link href="/login">
+            <Link href="/statistics">
               <div className="tile is-4 is-parent">
                 <div className="tile is-child box">
                   <p className="subtitle">Tentastatistik</p>

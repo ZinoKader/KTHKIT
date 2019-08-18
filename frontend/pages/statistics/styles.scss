@@ -1,0 +1,16 @@
+@import "../../global/global.scss";
+
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+
+  > p {
+    text-align: center;
+    margin: 10px;
+  }
+
+  > progress {
+    width: 200px;
+    align-self: center;
+  }
+}

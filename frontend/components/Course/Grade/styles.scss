@@ -1,19 +1,4 @@
-@import "../../global/global.scss";
-
-.content {
-  text-align: center;
-  > :first-child {
-    margin-top: 10px;
-  }
-}
-
-.courseContainer {
-  margin-bottom: 25px;
-
-  > p:first-child {
-    margin-bottom: 1.5em;
-  }
-}
+@import "../../../global/global.scss";
 
 .gradeSelectContainer {
   display: flex;

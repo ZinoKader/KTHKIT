@@ -1,0 +1,27 @@
+@import "../../global/global.scss";
+
+.content {
+  text-align: center;
+  > :first-child {
+    margin-top: 10px;
+  }
+}
+
+.courseContainer {
+  max-width: 420px;
+  margin-bottom: 25px;
+
+  &:hover {
+    > p:first-child {
+      overflow: auto;
+      white-space: initial;
+    }
+  }
+
+  > p:first-child {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 1.5em;
+  }
+}
