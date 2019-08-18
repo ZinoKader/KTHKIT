@@ -2,6 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 import re
+import html
+import requests
 import json
 import time
 from bs4 import BeautifulSoup as bs
@@ -10,6 +12,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
+courses_endpoint = 'https://api.kth.se/api/kopps/v2/course/'
 stats_base_url = 'https://kthgrumatte.webfactional.com'
 
 
@@ -24,7 +27,17 @@ def init_db():
 def get_all_courses():
     db = init_db()
     courses_ref = db.collection('examstatistics').stream()
-    courses = {'courses': [course.id for course in courses_ref]}
+    course_ids = [course.id for course in courses_ref]
+
+    courses = {'courses': []}
+    for course_id in course_ids:
+        request = requests.get(courses_endpoint + course_id)
+        course_information = request.json()
+        course = {'courseName': course_information['title']['sv'],
+                  'courseCode': course_id, 'courseCredits': course_information['credits'],
+                  'courseLink': course_information['href']['sv'],
+                  'courseDescription': html.unescape(re.sub('(<p>)|(<\/p>)', '', course_information['info']['sv']))}
+        courses['courses'].append(course)
     return courses
 
 
