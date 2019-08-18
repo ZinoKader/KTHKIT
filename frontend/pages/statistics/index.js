@@ -6,6 +6,7 @@ import Course, { COURSE_TYPE } from "../../components/Course";
 
 const Statistics = ({ ctx }) => {
   const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +33,8 @@ const Statistics = ({ ctx }) => {
                   <Course
                     courseItem={courseItem}
                     courseType={COURSE_TYPE.STATISTIC}
+                    selectedCourse={selectedCourse}
+                    chooseCourse={setSelectedCourse}
                   />
                 ))}
               </ul>

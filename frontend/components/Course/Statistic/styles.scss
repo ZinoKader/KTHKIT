@@ -18,26 +18,79 @@
 }
 
 .courseInformation {
-  display: block;
-  position: relative;
+  display: flex;
+  justify-content: center;
   margin-bottom: 1em;
+  font-weight: 500;
   color: $g-deepDarkBlue;
 
   &::after {
     content: "";
-    margin-top: -0.315em;
-    right: 6.7rem;
-    border: 3px solid $g-deepBlue;
+    border: 3px solid $g-deepDarkBlue;
     border-right: 0;
     border-top: 0;
     display: block;
-    z-index: 99999999;
     height: 0.625em;
-    pointer-events: none;
-    position: absolute;
-    top: 50%;
-    transform: rotate(225deg);
-    transform-origin: center;
     width: 0.625em;
+    margin-left: 5px;
+    align-self: center;
+    pointer-events: none;
+    transform: rotate(-135deg);
+    transform-origin: center;
+  }
+}
+
+.courseAnchor {
+  display: block;
+  position: relative;
+  top: -50vh;
+  visibility: hidden;
+}
+
+.expandButton {
+  display: block;
+  position: relative;
+  margin: 1em 0;
+  font-weight: bold;
+  color: $g-deepDarkBlue;
+
+  &.flipped {
+    margin-top: 2em;
+
+    &::after {
+      display: none;
+    }
+
+    &::before {
+      content: "";
+      margin: 5px auto;
+      margin-bottom: 1em;
+      border: 3px solid $g-deepDarkBlue;
+      border-right: 0;
+      border-radius: 1px;
+      border-top: 0;
+      display: block;
+      height: 0.825em;
+      width: 0.825em;
+      pointer-events: none;
+      transform: rotate(135deg);
+      transform-origin: center;
+    }
+  }
+
+  &::after {
+    content: "";
+    margin: 5px auto;
+    margin-bottom: 1em;
+    border: 3px solid $g-deepDarkBlue;
+    border-right: 0;
+    border-radius: 1px;
+    border-top: 0;
+    display: block;
+    height: 0.825em;
+    width: 0.825em;
+    pointer-events: none;
+    transform: rotate(-45deg);
+    transform-origin: center;
   }
 }

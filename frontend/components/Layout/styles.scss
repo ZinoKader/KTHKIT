@@ -1,7 +1,11 @@
 @import "../../global/global.scss";
 
+header {
+  position: relative;
+  z-index: 10000;
+}
+
 .root {
-  min-height: 75vh;
 }
 
 .navbar {

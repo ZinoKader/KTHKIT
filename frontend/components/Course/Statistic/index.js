@@ -1,8 +1,9 @@
 import React from "react";
 import "./styles.scss";
-import Link from "next/link";
 
-const Statistic = ({ courseItem }) => {
+const Statistic = ({ courseItem, chooseCourse, ...restProps }) => {
+  const { selectedCourse } = restProps;
+
   return (
     <>
       <a
@@ -17,6 +18,16 @@ const Statistic = ({ courseItem }) => {
           ? courseItem.courseDescription
           : "Kursen saknar beskrivning"}
       </div>
+      <a id={courseItem.courseCode} className="courseAnchor"></a>
+      <a
+        href={"#" + courseItem.courseCode}
+        onClick={() =>
+          selectedCourse ? chooseCourse() : chooseCourse(courseItem)
+        }
+        className={"expandButton" + (selectedCourse ? " flipped" : "")}
+      >
+        {selectedCourse ? "Göm statistik" : "Visa statistik"}
+      </a>
     </>
   );
 };

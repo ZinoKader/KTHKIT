@@ -1,6 +1,7 @@
 @import "../global/global.scss";
 
 .container {
+  position: unset;
   display: flex;
   flex-direction: column;
   justify-content: center;

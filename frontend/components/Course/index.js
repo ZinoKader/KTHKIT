@@ -1,5 +1,4 @@
 import React from "react";
-import { gradeWeights } from "../../global/global";
 import "./styles.scss";
 import Grade from "./Grade";
 import Statistic from "./Statistic";
@@ -10,9 +9,20 @@ export const COURSE_TYPE = {
 };
 
 const Course = ({ courseItem, courseType, ...restProps }) => {
+  const { selectedCourse } = restProps;
+
   return (
     <li key={courseItem.courseCode}>
-      <div className="box courseContainer">
+      <div
+        className={
+          "box courseContainer" +
+          (selectedCourse
+            ? selectedCourse === courseItem
+              ? " expanded"
+              : " collapsed"
+            : "")
+        }
+      >
         <p>
           <strong>
             {courseItem.courseCode} {courseItem.courseName}
@@ -23,7 +33,7 @@ const Course = ({ courseItem, courseType, ...restProps }) => {
           <Grade courseItem={courseItem} {...restProps} />
         )}
         {courseType === COURSE_TYPE.STATISTIC && (
-          <Statistic courseItem={courseItem} />
+          <Statistic courseItem={courseItem} {...restProps} />
         )}
       </div>
     </li>
