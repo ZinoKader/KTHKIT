@@ -2,12 +2,14 @@
 import axios from "axios";
 import { kth_mail_domain } from "../global/global";
 
-const profileApi = "https://api.kthkit.se/profile";
-const gradesApi = "https://api.kthkit.se/grades";
+const profileEndpoint = "https://api.kthkit.se/profile";
+const gradesEndpoint = "https://api.kthkit.se/grades";
+const statisticsCoursesEndpoint =
+  "https://api.kthkit.se/statistics/all-courses";
 
 export const getProfile = email => {
   const username = email.replace(kth_mail_domain, "");
-  return axios.get(profileApi, {
+  return axios.get(profileEndpoint, {
     params: {
       username
     }
@@ -16,10 +18,14 @@ export const getProfile = email => {
 
 export const getCourseGrades = (email, password) => {
   const username = email.replace(kth_mail_domain, "");
-  return axios.get(gradesApi, {
+  return axios.get(gradesEndpoint, {
     params: {
       username,
       password
     }
   });
+};
+
+export const getStatisticsCourses = () => {
+  return axios.get(statisticsCoursesEndpoint);
 };
