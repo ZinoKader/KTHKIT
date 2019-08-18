@@ -39,7 +39,7 @@ def statistics_all_courses_endpoint():
 
 
 @app.route('/statistics/update', methods=['GET'])
-def updatestatistics_endpoint():
+def statistics_update_endpoint():
     f = open('kthaccount.json', 'r')
     kth_account = json.load(f)
     f.close()
