@@ -2,7 +2,7 @@
 
 .courseDescriptionContainer {
   position: relative;
-  height: 4rem;
+  max-height: 4rem;
   overflow: hidden;
 
   &::after {
@@ -14,5 +14,30 @@
     width: 100%;
     height: 2rem;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffffd6);
+  }
+}
+
+.courseInformation {
+  display: block;
+  position: relative;
+  margin-bottom: 1em;
+  color: $g-deepDarkBlue;
+
+  &::after {
+    content: "";
+    margin-top: -0.315em;
+    right: 6.7rem;
+    border: 3px solid $g-deepBlue;
+    border-right: 0;
+    border-top: 0;
+    display: block;
+    z-index: 99999999;
+    height: 0.625em;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: rotate(225deg);
+    transform-origin: center;
+    width: 0.625em;
   }
 }

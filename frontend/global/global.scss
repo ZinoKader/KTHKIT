@@ -4,6 +4,9 @@
 $g-primaryColor: rgb(25, 84, 166);
 $g-secondaryColor: rgb(36, 160, 216);
 $g-primaryDarkColor: #363636;
+$g-deepBlue: #1954a6;
+$g-deepDarkBlue: #0d346b;
+
 
 /* Action colors */
 $g-hoverWhite: #fafafa;
@@ -1928,6 +1931,7 @@ a.box:active {
   margin-top: 0.25em; }
 
 .content p:not(:last-child),
+.content a:not(:last-child),
 .content dl:not(:last-child),
 .content ol:not(:last-child),
 .content ul:not(:last-child),
