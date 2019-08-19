@@ -5,6 +5,19 @@
   max-height: 4rem;
   overflow: hidden;
 
+  &.expanded {
+    max-height: none;
+    max-width: 400px;
+    margin: auto;
+    text-align: justify;
+    hyphens: auto;
+    overflow: auto;
+
+    &::after {
+      display: none;
+    }
+  }
+
   &::after {
     content: "";
     text-align: center;

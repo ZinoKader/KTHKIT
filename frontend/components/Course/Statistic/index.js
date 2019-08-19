@@ -13,7 +13,11 @@ const Statistic = ({ courseItem, chooseCourse, ...restProps }) => {
       >
         Kursinformation
       </a>
-      <div className="courseDescriptionContainer">
+      <div
+        className={
+          "courseDescriptionContainer" + (selectedCourse ? " expanded" : "")
+        }
+      >
         {courseItem.courseDescription.length !== 0
           ? courseItem.courseDescription
           : "Kursen saknar beskrivning"}
