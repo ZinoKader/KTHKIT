@@ -24,6 +24,11 @@ def init_db():
     return db
 
 
+def get_course_statistics(course_code):
+    db = init_db()
+    course_ref = db.collection('examstatistics').document(course_code)
+
+
 def get_all_courses():
     db = init_db()
     courses_ref = db.collection('examstatistics').stream()
