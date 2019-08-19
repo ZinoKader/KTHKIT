@@ -3142,7 +3142,7 @@ a.box:active {
   .progress.is-dark::-webkit-progress-value {
     background-color: $g-primaryDarkColor; }
   .progress.is-dark::-moz-progress-bar {
-    background-color: $g-primaryDarkColor; }
+    background-color: transparent; }
   .progress.is-dark::-ms-fill {
     background-color: $g-primaryDarkColor; }
   .progress.is-primary::-webkit-progress-value {
