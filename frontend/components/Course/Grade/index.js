@@ -2,7 +2,7 @@ import React from "react";
 import { gradeWeights } from "../../../global/global";
 import "./styles.scss";
 
-const Grade = ({ courseItem, isGraded, changeGrade }) => {
+const Grade = ({ courseItem, isGraded, methods: { changeGrade } }) => {
   return (
     <div className="gradeSelectContainer">
       <p>Betyg: </p>

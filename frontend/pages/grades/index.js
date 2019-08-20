@@ -179,7 +179,7 @@ const Grades = ({ ctx }) => {
                       <Course
                         courseItem={courseItem}
                         courseType={COURSE_TYPE.GRADE}
-                        changeGrade={changeGrade}
+                        methods={{ changeGrade }}
                         isGraded
                       />
                     ))}
@@ -199,7 +199,7 @@ const Grades = ({ ctx }) => {
                     <Course
                       courseItem={courseItem}
                       courseType={COURSE_TYPE.GRADE}
-                      changeGrade={changeGrade}
+                      methods={{ changeGrade }}
                     />
                   ))}
                 </ul>

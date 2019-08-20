@@ -16,6 +16,11 @@ const Statistics = ({ ctx }) => {
     fetchData();
   }, []);
 
+  const getChartData = async courseCode => {
+    const { data } = await api.getStatisticsForCourse(courseCode);
+    return data;
+  };
+
   return (
     <Layout title="Tentastatistik" ctx={ctx}>
       <section className="section">
@@ -34,7 +39,7 @@ const Statistics = ({ ctx }) => {
                     courseItem={courseItem}
                     courseType={COURSE_TYPE.STATISTIC}
                     selectedCourse={selectedCourse}
-                    chooseCourse={setSelectedCourse}
+                    methods={{ getChartData, setSelectedCourse }}
                   />
                 ))}
               </ul>

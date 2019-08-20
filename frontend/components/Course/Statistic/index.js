@@ -1,9 +1,13 @@
 import React from "react";
+import Bar from "../../Charts/Bar";
 import "./styles.scss";
 
-const Statistic = ({ courseItem, chooseCourse, ...restProps }) => {
-  const { selectedCourse } = restProps;
-
+const Statistic = ({
+  courseItem,
+  methods: { setSelectedCourse, getChartData },
+  selectedCourse,
+  ...restProps
+}) => {
   return (
     <>
       <a
@@ -26,12 +30,14 @@ const Statistic = ({ courseItem, chooseCourse, ...restProps }) => {
       <a
         href={"#" + courseItem.courseCode}
         onClick={() =>
-          selectedCourse ? chooseCourse() : chooseCourse(courseItem)
+          selectedCourse ? setSelectedCourse() : setSelectedCourse(courseItem)
         }
         className={"expandButton" + (selectedCourse ? " flipped" : "")}
       >
         {selectedCourse ? "Göm statistik" : "Visa statistik"}
       </a>
+      {/*selectedCourse === courseItem && console.log(getChartData(selectedCourse.courseCode, selectedCourse.course))*/}
+      {/*<Bar data={getChartData(courseItem.courseCode)} >*/}
     </>
   );
 };
