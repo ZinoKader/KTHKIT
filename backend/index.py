@@ -38,6 +38,17 @@ def statistics_all_courses_endpoint():
     return jsonify(statistics.get_all_courses())
 
 
+@app.route('/statistics/course-exams', methods=['GET'])
+def statistics_exams_for_course_endpoint():
+    return jsonify(statistics.get_course_exam_dates(request.args.get('courseCode')))
+
+
+@app.route('/statistics/course', methods=['GET'])
+def statistics_for_course_endpoint():
+    return jsonify(statistics.get_course_statistics(request.args.get('courseCode'),
+                                                    request.args.get('examDate')))
+
+
 @app.route('/statistics/update', methods=['GET'])
 def statistics_update_endpoint():
     f = open('kthaccount.json', 'r')

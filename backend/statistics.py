@@ -27,11 +27,18 @@ def init_db():
     return db
 
 
-def get_course_statistics(course_code):
+def get_course_exam_dates(course_code):
     db = init_db()
-    course_ref = db.collection('examstatistics').document(course_code)
+    return {'dates': collection.id for collection in db.collection(
+        'examstatistics').document(course_code).collections()}
 
 
+def get_course_statistics(course_code, exam_date):
+    db = init_db()
+    return next(db.collection('examstatistics').document(course_code).collection(exam_date).get()).to_dict()
+
+
+# TODO: Add this data when updating data in the update_data() method instead
 def get_all_courses():
     db = init_db()
     courses_ref = db.collection('examstatistics').stream()
@@ -82,9 +89,11 @@ def update_data(session):
                 exam_stats)
 
         batch = db.batch()
-        for field, val in all_exam_statistics.items():
-            doc_ref = db.collection('examstatistics').document(field)
-            batch.set(doc_ref, val)
+        for course_code, course_val in all_exam_statistics.items():
+            for exam_date, exam_val in course_val.items():
+                doc_ref = db.collection('examstatistics').document(
+                    course_code).collection(exam_date).document(exam_date)
+                batch.set(doc_ref, exam_val)
 
         batch.commit()
         return "Successfully updated exam statistics in: " + str(round(time.time() - time_start, 2)) + "s"
