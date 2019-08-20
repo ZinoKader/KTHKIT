@@ -29,8 +29,8 @@ def init_db():
 
 def get_course_exam_dates(course_code):
     db = init_db()
-    return {'dates': collection.id for collection in db.collection(
-        'examstatistics').document(course_code).collections()}
+    return {'dates': [collection.id for collection in db.collection(
+        'examstatistics').document(course_code).collections()]}
 
 
 def get_course_statistics(course_code, exam_date):
