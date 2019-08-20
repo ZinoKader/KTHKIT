@@ -14,13 +14,16 @@ from firebase_admin import firestore
 
 courses_endpoint = 'https://api.kth.se/api/kopps/v2/course/'
 stats_base_url = 'https://kthgrumatte.webfactional.com'
+db = None
 
 
 def init_db():
+    global db
     if (not len(firebase_admin._apps)):
         cred = credentials.Certificate('serviceaccount.json')
         firebase_admin.initialize_app(cred)
-    db = firestore.client()
+    if not db:
+        db = firestore.client()
     return db
 
 
