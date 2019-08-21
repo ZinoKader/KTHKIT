@@ -3,6 +3,7 @@
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_caching import Cache
 import json
 import login
 import grades
@@ -10,7 +11,8 @@ import profile
 import statistics
 
 app = Flask(__name__)
-app.config['JSON_AS_ASCII'] = False
+app.config.from_mapping({'JSON_AS_ASCII': False, 'CACHE_TYPE': 'simple'})
+cache = Cache(app)
 CORS(app)
 
 
@@ -34,12 +36,13 @@ def profile_endpoint():
 
 
 @app.route('/statistics/all-courses', methods=['GET'])
+@cache.cached(timeout=86400)
 def statistics_all_courses_endpoint():
     return jsonify(statistics.get_all_courses())
 
 
 @app.route('/statistics/course-exams', methods=['GET'])
-def statistics_exams_for_course_endpoint():
+def statistics_exam_dates_for_course_endpoint():
     return jsonify(statistics.get_course_exam_dates(request.args.get('courseCode')))
 
 
