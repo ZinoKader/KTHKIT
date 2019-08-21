@@ -11,8 +11,12 @@ import profile
 import statistics
 
 app = Flask(__name__)
-app.config.from_mapping(
-    {'JSON_AS_ASCII': False, 'CACHE_TYPE': 'uwsgi', 'CACHE_UWSGI_NAME': 'kthkitapicache@localhost:5000'})
+if app.env == 'production':
+    app.config.from_mapping(
+        {'JSON_AS_ASCII': False, 'CACHE_TYPE': 'filesystem', 'CACHE_DIR': 'kthkit_api_cache'})
+else:
+    app.config.from_mapping({'JSON_AS_ASCII': False})
+
 cache = Cache(app)
 CORS(app)
 
