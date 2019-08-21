@@ -11,17 +11,23 @@ import profile
 import statistics
 
 app = Flask(__name__)
+
+CACHE_ONE_DAY = 86400
+CACHE_ONE_HOUR = 3600
+
 if app.env == 'production':
-    app.config.from_mapping(
-        {'JSON_AS_ASCII': False, 'CACHE_TYPE': 'filesystem', 'CACHE_DIR': 'kthkit_api_cache'})
+    app.config.from_mapping({'JSON_AS_ASCII': False, 'CACHE_TYPE': 'filesystem',
+                             'CACHE_DIR': 'kthkit_api_cache', 'CACHE_DEFAULT_TIMEOUT': CACHE_ONE_DAY})
 else:
     app.config.from_mapping({'JSON_AS_ASCII': False})
 
 cache = Cache(app)
+
 CORS(app)
 
 
 @app.route('/grades', methods=['GET'])
+@cache.cached(query_string=True)
 def grades_endpoint():
     username = request.args.get('username')
     password = request.args.get('password')
@@ -41,7 +47,7 @@ def profile_endpoint():
 
 
 @app.route('/statistics/all-courses', methods=['GET'])
-@cache.cached(timeout=86400)
+@cache.cached(query_string=True)
 def statistics_all_courses_endpoint():
     return jsonify(statistics.get_all_courses())
 
