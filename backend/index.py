@@ -11,7 +11,8 @@ import profile
 import statistics
 
 app = Flask(__name__)
-app.config.from_mapping({'JSON_AS_ASCII': False, 'CACHE_TYPE': 'simple'})
+app.config.from_mapping(
+    {'JSON_AS_ASCII': False, 'CACHE_TYPE': 'uwsgi', 'CACHE_UWSGI_NAME': 'kthkitapicache@localhost:5000'})
 cache = Cache(app)
 CORS(app)
 
@@ -66,4 +67,4 @@ def statistics_update_endpoint():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5000)
