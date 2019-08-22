@@ -27,7 +27,7 @@ cache = Cache(app)
 CORS(app)
 
 
-@app.route('/credentials', methods=['POST'])
+@app.route('/credentials', methods=['GET'])
 def credentials_endpoint():
     username = request.authorization['username']
     password = request.authorization['password']
