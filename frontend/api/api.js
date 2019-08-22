@@ -12,7 +12,6 @@ const statisticsCoursesEndpoint = api + "/statistics/all-courses";
 
 export const validateCredentials = async (username, password) => {
   const { result } = axios.get(credentialsEndpoint, {
-    withCredentials: true,
     auth: {
       username,
       password
