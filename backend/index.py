@@ -17,7 +17,8 @@ CACHE_ONE_HOUR = 3600
 
 if app.env == 'production':
     app.config.from_mapping({'JSON_AS_ASCII': False, 'CACHE_TYPE': 'filesystem',
-                             'CACHE_DIR': 'kthkit_api_cache', 'CACHE_DEFAULT_TIMEOUT': CACHE_ONE_DAY})
+                             'CACHE_DIR': 'kthkit_api_cache', 'CACHE_DEFAULT_TIMEOUT': CACHE_ONE_DAY,
+                             'CACHE_THRESHOLD': 10000})
 else:
     app.config.from_mapping({'JSON_AS_ASCII': False})
 
@@ -27,10 +28,12 @@ CORS(app)
 
 
 @app.route('/grades', methods=['GET'])
-@cache.cached(query_string=True)
+@cache.cached(key_prefix='grades')
 def grades_endpoint():
-    username = request.args.get('username')
-    password = request.args.get('password')
+    username = request.cookies.get('username')
+    password = request.cookies.get('password')
+    if username:
+        cache.make_cache_key(username)
     auth_session, uid = login.login_student(username, password)
     finished_courses = grades.get_finished_courses(auth_session, uid)
     unfinished_courses = grades.get_unfinished_courses(auth_session, uid)
@@ -41,13 +44,13 @@ def grades_endpoint():
 
 @app.route('/profile', methods=['GET'])
 def profile_endpoint():
-    username = request.args.get('username')
+    username = request.cookies.get('username')
     profile_information = profile.get_profile_information(username)
     return jsonify(profile_information)
 
 
 @app.route('/statistics/all-courses', methods=['GET'])
-@cache.cached(query_string=True)
+@cache.cached()
 def statistics_all_courses_endpoint():
     return jsonify(statistics.get_all_courses())
 
