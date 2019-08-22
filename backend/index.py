@@ -2,9 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 from flask import Flask, request, jsonify, Response
-from flask_cors import CORS
 from flask_caching import Cache
 import json
+import caching
 import login
 import grades
 import profile
@@ -25,13 +25,6 @@ else:
 cache = Cache(app)
 
 
-def make_user_cache_key(*args, **kwargs):
-    path = request.path
-    auth = request.authorization['username'] + \
-        request.authorization['password']
-    return (path + auth).encode('utf-8')
-
-
 @app.route('/credentials', methods=['GET'])
 def credentials_endpoint():
     username = request.authorization['username']
@@ -48,7 +41,7 @@ def profile_endpoint():
 
 
 @app.route('/grades', methods=['GET'])
-@cache.cached(key_prefix=make_user_cache_key)
+@cache.cached(key_prefix=caching.make_authorized_cache_key)
 def grades_endpoint():
     username = request.authorization['username']
     password = request.authorization['password']
