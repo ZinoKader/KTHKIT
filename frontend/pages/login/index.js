@@ -15,6 +15,7 @@ import {
 const Login = ({ ctx, from }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [generalErrorMessage, setGeneralErrorMessage] = useState("");
   const [mailFormatValid, setUsernameFormatValidity] = useState(true);
   const [passwordFormatValid, setPasswordFormatValidity] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -39,13 +40,17 @@ const Login = ({ ctx, from }) => {
                 data.familyName,
                 data.image
               );
-            })
-            .finally(() => {
-              setLoading(false);
               setAuthCookies(ctx, username, password);
               Router.push(from ? from : "/");
             })
-        : setLoading(false);
+            .catch(() =>
+              setGeneralErrorMessage("Ett oväntat fel inträffade, försök igen!")
+            )
+            .finally(() => {
+              setLoading(false);
+            })
+        : setLoading(false) &&
+          setGeneralErrorMessage("Fel inloggningsuppgifter, försök igen!");
     }
   };
 
@@ -89,9 +94,18 @@ const Login = ({ ctx, from }) => {
                 <form
                   onSubmit={async e => {
                     e.preventDefault();
+                    setGeneralErrorMessage("");
                     await submitLogin();
                   }}
                 >
+                  <p
+                    className={classnames("help", "is-danger", {
+                      "is-hidden": generalErrorMessage.length === 0
+                    })}
+                    style={{ textAlign: "center" }}
+                  >
+                    {generalErrorMessage}
+                  </p>
                   <div className="field">
                     <div className="control has-icons-left has-icons-right">
                       <input
