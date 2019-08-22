@@ -25,6 +25,13 @@ else:
 cache = Cache(app)
 
 
+def make_user_cache_key(*args, **kwargs):
+    path = request.path
+    auth = request.authorization['username'] + \
+        request.authorization['password']
+    return (path + auth).encode('utf-8')
+
+
 @app.route('/credentials', methods=['GET'])
 def credentials_endpoint():
     username = request.authorization['username']
@@ -41,8 +48,10 @@ def profile_endpoint():
 
 
 @app.route('/grades', methods=['GET'])
-@cache.memoize()
-def grades_endpoint(username=request.authorization['username'], password=request.authorization['password']):
+@cache.cached(key_prefix=make_user_cache_key)
+def grades_endpoint():
+    username = request.authorization['username']
+    password = request.authorization['password']
     auth_session, uid = login.login_student(username, password)
     finished_courses = grades.get_finished_courses(auth_session, uid)
     unfinished_courses = grades.get_unfinished_courses(auth_session, uid)
