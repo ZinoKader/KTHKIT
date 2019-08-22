@@ -41,12 +41,10 @@ def profile_endpoint():
 
 
 @app.route('/grades', methods=['GET'])
-@cache.cached(key_prefix='grades')
+@cache.cached()
 def grades_endpoint():
     username = request.authorization['username']
     password = request.authorization['password']
-    if username and app.env == 'production':
-        cache.make_cache_key(username)
     auth_session, uid = login.login_student(username, password)
     finished_courses = grades.get_finished_courses(auth_session, uid)
     unfinished_courses = grades.get_unfinished_courses(auth_session, uid)
