@@ -1,5 +1,4 @@
 flask
-flask-cors
 Flask-Caching
 requests
 firebase-admin

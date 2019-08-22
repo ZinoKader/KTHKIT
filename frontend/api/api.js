@@ -34,14 +34,9 @@ export const getProfile = username => {
   });
 };
 
-export const getCourseGrades = (username, password) => {
+export const getCourseGrades = () => {
   return axios.get(gradesEndpoint, {
-    headers: {
-      Cookie: {
-        username: username,
-        password: password
-      }
-    }
+    withCredentials: true
   });
 };
 

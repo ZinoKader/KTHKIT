@@ -24,8 +24,6 @@ else:
 
 cache = Cache(app)
 
-CORS(app)
-
 
 @app.route('/credentials', methods=['GET'])
 def credentials_endpoint():
