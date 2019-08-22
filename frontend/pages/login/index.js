@@ -30,18 +30,22 @@ const Login = ({ ctx, from }) => {
     if (usernameFormatValidity && passwordFormatValidity) {
       setLoading(true);
       const credentialsValid = await validateCredentials(username, password);
-      setLoading(credentialsValid);
-
-      credentialsValid &&
-        getProfile(username)
-          .then(({ data }) => {
-            setProfileCookies(ctx, data.givenName, data.familyName, data.image);
-          })
-          .finally(() => {
-            setLoading(false);
-            setAuthCookies(ctx, username, password);
-            Router.push(from ? from : "/");
-          });
+      credentialsValid
+        ? getProfile(username)
+            .then(({ data }) => {
+              setProfileCookies(
+                ctx,
+                data.givenName,
+                data.familyName,
+                data.image
+              );
+            })
+            .finally(() => {
+              setLoading(false);
+              setAuthCookies(ctx, username, password);
+              Router.push(from ? from : "/");
+            })
+        : setLoading(false);
     }
   };
 

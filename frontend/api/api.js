@@ -11,13 +11,19 @@ const statisticsForCourseEndpoint = api + "/statistics";
 const statisticsCoursesEndpoint = api + "/statistics/all-courses";
 
 export const validateCredentials = async (username, password) => {
-  const { result } = axios.get(credentialsEndpoint, {
-    auth: {
-      username,
-      password
-    }
-  });
-  return result && result.status === 200;
+  return await axios
+    .get(credentialsEndpoint, {
+      auth: {
+        username,
+        password
+      }
+    })
+    .then(result => {
+      return result && result.status === 200;
+    })
+    .catch(() => {
+      return false;
+    });
 };
 
 export const getProfile = username => {

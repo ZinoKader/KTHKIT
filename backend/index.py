@@ -37,7 +37,7 @@ def credentials_endpoint():
 
 @app.route('/profile', methods=['GET'])
 def profile_endpoint():
-    username = request.cookies.get('username')
+    username = request.args.get('username')
     profile_information = profile.get_profile_information(username)
     return jsonify(profile_information)
 
