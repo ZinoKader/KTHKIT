@@ -19,9 +19,9 @@ const Grades = ({ ctx }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
-      if (cookieEmail && cookiePassword) {
-        const { data } = await api.getCourseGrades(cookieEmail, cookiePassword);
+      const { cookieUsername, cookiePassword } = getAuthCookies(ctx);
+      if (cookieUsername && cookiePassword) {
+        const { data } = await api.getCourseGrades();
         const [finished, unfinished] = [
           data.finishedCourses,
           data.unfinishedCourses

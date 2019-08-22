@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 from flask_caching import Cache
 import json
@@ -27,19 +27,12 @@ cache = Cache(app)
 CORS(app)
 
 
-@app.route('/grades', methods=['GET'])
-@cache.cached(key_prefix='grades')
-def grades_endpoint():
-    username = request.cookies.get('username')
-    password = request.cookies.get('password')
-    if username:
-        cache.make_cache_key(username)
-    auth_session, uid = login.login_student(username, password)
-    finished_courses = grades.get_finished_courses(auth_session, uid)
-    unfinished_courses = grades.get_unfinished_courses(auth_session, uid)
-    courses = {'finishedCourses': finished_courses,
-               'unfinishedCourses': unfinished_courses}
-    return jsonify(courses)
+@app.route('/credentials', methods=['POST'])
+def credentials_endpoint():
+    username = request.authorization['username']
+    password = request.authorization['password']
+    _, uid = login.login_student(username, password)
+    return Response(200 if uid else 401)
 
 
 @app.route('/profile', methods=['GET'])
@@ -47,6 +40,21 @@ def profile_endpoint():
     username = request.cookies.get('username')
     profile_information = profile.get_profile_information(username)
     return jsonify(profile_information)
+
+
+@app.route('/grades', methods=['GET'])
+@cache.cached(key_prefix='grades')
+def grades_endpoint():
+    username = request.cookies.get('username')
+    password = request.cookies.get('password')
+    if username and app.env == 'production':
+        cache.make_cache_key(username)
+    auth_session, uid = login.login_student(username, password)
+    finished_courses = grades.get_finished_courses(auth_session, uid)
+    unfinished_courses = grades.get_unfinished_courses(auth_session, uid)
+    courses = {'finishedCourses': finished_courses,
+               'unfinishedCourses': unfinished_courses}
+    return jsonify(courses)
 
 
 @app.route('/statistics/all-courses', methods=['GET'])

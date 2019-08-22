@@ -1,8 +1,7 @@
-export const kth_mail_domain = "@kth.se";
+export const email_pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
-export const kth_profile_edit_url = email => {
-  const account_name = email.replace(kth_mail_domain, "");
-  return "https://www.kth.se/profile/" + account_name + "/edit/";
+export const kth_profile_edit_url = username => {
+  return "https://www.kth.se/profile/" + username + "/edit/";
 };
 export const profile_picture_placeholder_path =
   "../../static/profile_placeholder.png";

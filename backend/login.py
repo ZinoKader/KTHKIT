@@ -16,7 +16,6 @@ def login_student(username, password):
 
     for cookie in session.cookies.get_dict():
         cookie = re.search('_shibstate_([a-zA-Z0-9_]+)', cookie)
-
         if cookie is not None:
             shibstate = cookie.group(1)
             break

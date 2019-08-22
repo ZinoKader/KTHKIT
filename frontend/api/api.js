@@ -1,17 +1,26 @@
 /* All API calls are made here */
 import axios from "axios";
-import { kth_mail_domain } from "../global/global";
 
-const profileEndpoint = "https://api.kthkit.se/profile";
-const gradesEndpoint = "https://api.kthkit.se/grades";
-const examDatesForCourseEndpoint =
-  "https://api.kthkit.se/statistics/course-exams";
-const statisticsForCourseEndpoint = "https://api.kthkit.se/statistics";
-const statisticsCoursesEndpoint =
-  "https://api.kthkit.se/statistics/all-courses";
+const api = "https://api.kthkit.se";
 
-export const getProfile = email => {
-  const username = email.replace(kth_mail_domain, "");
+const credentialsEndpoint = api + "/credentials";
+const profileEndpoint = api + "/profile";
+const gradesEndpoint = api + "/grades";
+const examDatesForCourseEndpoint = api + "/statistics/course-exams";
+const statisticsForCourseEndpoint = api + "/statistics";
+const statisticsCoursesEndpoint = api + "/statistics/all-courses";
+
+export const validateCredentials = async (username, password) => {
+  const { result } = axios.post(credentialsEndpoint, {
+    auth: {
+      username,
+      password
+    }
+  });
+  return result && result.status === 200;
+};
+
+export const getProfile = username => {
   return axios.get(profileEndpoint, {
     params: {
       username
@@ -19,14 +28,8 @@ export const getProfile = email => {
   });
 };
 
-export const getCourseGrades = (email, password) => {
-  const username = email.replace(kth_mail_domain, "");
-  return axios.get(gradesEndpoint, {
-    params: {
-      username,
-      password
-    }
-  });
+export const getCourseGrades = () => {
+  return axios.get(gradesEndpoint);
 };
 
 export const getExamDatesForCourse = courseCode => {

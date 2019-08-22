@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Router from "next/router";
 import classnames from "classnames";
-import { getProfile } from "../../api/api";
+import { validateCredentials, getProfile } from "../../api/api";
 import Layout from "../../components/Layout";
-import { kth_mail_domain } from "../../global/global";
+import { email_pattern } from "../../global/global";
 import "./styles.scss";
 import {
   setProfileCookies,
@@ -13,33 +13,36 @@ import {
 } from "../../utils/login-tools";
 
 const Login = ({ ctx, from }) => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [mailValid, setEmailValidity] = useState("true");
-  const [passwordValid, setPasswordValidity] = useState("true");
-  const [loading, setLoading] = useState("false");
+  const [mailFormatValid, setUsernameFormatValidity] = useState(true);
+  const [passwordFormatValid, setPasswordFormatValidity] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const validateLogin = () => {
-    const [emailValidity, passwordValidity] = [
-      email.slice(-kth_mail_domain.length).toLowerCase() === kth_mail_domain,
+  const submitLogin = async () => {
+    const [usernameFormatValidity, passwordFormatValidity] = [
+      !username.match(email_pattern) && username.length > 0,
       password.length > 0
     ];
-    setEmailValidity(emailValidity);
-    setPasswordValidity(passwordValidity);
-    return emailValidity && passwordValidity;
-  };
+    setUsernameFormatValidity(usernameFormatValidity);
+    setPasswordFormatValidity(passwordFormatValidity);
 
-  const submitLogin = () => {
-    setLoading(true);
-    getProfile(email)
-      .then(({ data }) => {
-        setProfileCookies(ctx, data.givenName, data.familyName, data.image);
-      })
-      .finally(() => {
-        setLoading(false);
-        setAuthCookies(ctx, email, password);
-        from ? Router.push(from) : Router.push("/");
-      });
+    if (usernameFormatValidity && passwordFormatValidity) {
+      setLoading(true);
+      const credentialsValid = await validateCredentials(username, password);
+      setLoading(credentialsValid);
+
+      credentialsValid &&
+        getProfile(username)
+          .then(({ data }) => {
+            setProfileCookies(ctx, data.givenName, data.familyName, data.image);
+          })
+          .finally(() => {
+            setLoading(false);
+            setAuthCookies(ctx, username, password);
+            Router.push(from ? from : "/");
+          });
+    }
   };
 
   const submitLogout = () => {
@@ -70,7 +73,7 @@ const Login = ({ ctx, from }) => {
                   "is-dark",
                   "is-fullwidth",
                   {
-                    "is-loading": loading === true
+                    "is-loading": loading
                   }
                 )}
                 onClick={() => submitLogout()}
@@ -80,21 +83,23 @@ const Login = ({ ctx, from }) => {
             ) : (
               <div className="card-content">
                 <form
-                  onSubmit={e => {
+                  onSubmit={async e => {
                     e.preventDefault();
-                    validateLogin() && submitLogin();
+                    await submitLogin();
                   }}
                 >
                   <div className="field">
                     <div className="control has-icons-left has-icons-right">
                       <input
                         className={classnames("input", {
-                          "is-danger": !mailValid
+                          "is-danger": !mailFormatValid
                         })}
-                        onChange={e => setEmail(e.target.value)}
-                        value={email}
-                        type="email"
-                        placeholder="jag@kth.se"
+                        name="username"
+                        onChange={e => setUsername(e.target.value)}
+                        value={username}
+                        autoComplete="off"
+                        type="username"
+                        placeholder="användarnamn"
                       />
                       <span className="icon is-small is-left">
                         <i className="fas fa-envelope" />
@@ -102,18 +107,20 @@ const Login = ({ ctx, from }) => {
                     </div>
                     <p
                       className={classnames("help", "is-danger", {
-                        "is-hidden": mailValid
+                        "is-hidden": mailFormatValid
                       })}
                     >
-                      Skriv din KTH-mail med @kth.se
+                      Skriv ditt KTH-användarnamn (utan @kth.se)
                     </p>
                   </div>
                   <div className="field">
                     <div className="control has-icons-left has-icons-right">
                       <input
                         className="input"
+                        name="password"
                         onChange={e => setPassword(e.target.value)}
                         value={password}
+                        autoComplete="off"
                         type="password"
                         placeholder="lösenord"
                       />
@@ -123,10 +130,10 @@ const Login = ({ ctx, from }) => {
                     </div>
                     <p
                       className={classnames("help", "is-danger", {
-                        "is-hidden": passwordValid
+                        "is-hidden": passwordFormatValid
                       })}
                     >
-                      Ange ett giltigt lösenord
+                      Glömde du ange ditt lösenord?
                     </p>
                   </div>
                   <div className="field loginButtonField">
@@ -137,7 +144,7 @@ const Login = ({ ctx, from }) => {
                           "is-dark",
                           "is-fullwidth",
                           {
-                            "is-loading": loading === true
+                            "is-loading": loading
                           }
                         )}
                       >

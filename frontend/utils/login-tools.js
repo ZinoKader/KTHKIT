@@ -1,18 +1,18 @@
 import { setCookies, getCookies, removeCookies } from "cookies-next";
 
 export const getAuthCookies = ctx => {
-  const cookieEmail = getCookies(ctx, "email");
+  const cookieUsername = getCookies(ctx, "username");
   const cookiePassword = getCookies(ctx, "password");
-  return { cookieEmail, cookiePassword };
+  return { cookieUsername, cookiePassword };
 };
 
-export const setAuthCookies = (ctx, email, password) => {
-  setCookies(ctx, "email", email);
+export const setAuthCookies = (ctx, username, password) => {
+  setCookies(ctx, "username", username);
   setCookies(ctx, "password", password);
 };
 
-export const setAuthState = async (ctx, setEmail, setPassword) => {
-  setEmail(getCookies(ctx, "email"));
+export const setAuthState = async (ctx, setUsername, setPassword) => {
+  setUsername(getCookies(ctx, "username"));
   setPassword(getCookies(ctx, "password"));
 };
 
@@ -29,13 +29,13 @@ export const setProfileState = async (ctx, setFullName, setProfileImageUrl) => {
 };
 
 export const isLoggedIn = ctx => {
-  const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
-  return cookieEmail != null && cookiePassword != null;
+  const { cookieUsername, cookiePassword } = getAuthCookies(ctx);
+  return cookieUsername != null && cookiePassword != null;
 };
 
 export const redirectIfLoggedOut = (ctx, router) => {
-  const { cookieEmail, cookiePassword } = getAuthCookies(ctx);
-  if (!(cookieEmail && cookiePassword)) {
+  const { cookieUsername, cookiePassword } = getAuthCookies(ctx);
+  if (!(cookieUsername && cookiePassword)) {
     if (ctx.res) {
       ctx.res.writeHead(302, {
         Location: "/login"
@@ -48,11 +48,11 @@ export const redirectIfLoggedOut = (ctx, router) => {
       });
     }
   }
-  return !(cookieEmail && cookiePassword);
+  return !(cookieUsername && cookiePassword);
 };
 
 export const deleteAuthAndProfileCookies = ctx => {
-  removeCookies(ctx, "email");
+  removeCookies(ctx, "username");
   removeCookies(ctx, "password");
   removeCookies(ctx, "fullname");
   removeCookies(ctx, "profileimageurl");

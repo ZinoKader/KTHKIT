@@ -16,7 +16,7 @@ import {
 import "./styles.scss";
 
 const Profile = ({ ctx }) => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
   const [profileImageUrl, setProfileImageUrl] = useState(
     profile_picture_placeholder_path
@@ -27,14 +27,14 @@ const Profile = ({ ctx }) => {
 
   useEffect(() => {
     setLoading(true);
-    setAuthState(ctx, setEmail, () => {});
+    setAuthState(ctx, setUsername, () => {});
     setProfileState(ctx, setFullName, setProfileImageUrl);
     setLoading(false);
   }, []);
 
   const refreshProfile = () => {
     setLoading(true);
-    getProfile(email)
+    getProfile(username)
       .then(({ data }) => {
         setProfileCookies(ctx, data.givenName, data.familyName, data.image);
         setEditingProfile(false);
@@ -78,7 +78,7 @@ const Profile = ({ ctx }) => {
                   onClick={() => {
                     isEditingProfile === true
                       ? refreshProfile()
-                      : window.open(kth_profile_edit_url(email), "_blank");
+                      : window.open(kth_profile_edit_url(username), "_blank");
                     setEditingProfile(true);
                     setRefreshFailed(false);
                   }}
