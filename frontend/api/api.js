@@ -10,8 +10,6 @@ const examDatesForCourseEndpoint = api + "/statistics/course-exams";
 const statisticsForCourseEndpoint = api + "/statistics";
 const statisticsCoursesEndpoint = api + "/statistics/all-courses";
 
-axios.defaults.withCredentials = true;
-
 export const validateCredentials = async (username, password) => {
   return await axios
     .get(credentialsEndpoint, {
@@ -36,9 +34,12 @@ export const getProfile = username => {
   });
 };
 
-export const getCourseGrades = () => {
+export const getCourseGrades = (username, password) => {
   return axios.get(gradesEndpoint, {
-    withCredentials: true
+    auth: {
+      username,
+      password
+    }
   });
 };
 
