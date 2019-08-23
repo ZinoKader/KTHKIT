@@ -19,10 +19,11 @@
   &.expanded {
     position: fixed;
     min-width: 100%;
-    height: 100%;
     margin: 0;
     top: 64px;
     left: 0;
+    bottom: 0;
+    overflow-y: scroll;
     padding: 0 2rem;
     transition: 0.5s !important;
     z-index: 1000;
