@@ -38,22 +38,10 @@ def get_course_statistics(course_code, exam_date):
     return next(db.collection('examstatistics').document(course_code).collection(exam_date).get()).to_dict()
 
 
-# TODO: Add this data when updating data in the update_data() method instead
 def get_all_courses():
     db = init_db()
     courses_ref = db.collection('examstatistics').stream()
-    course_ids = [course.id for course in courses_ref]
-
-    courses = {'courses': []}
-    for course_id in course_ids:
-        request = requests.get(courses_endpoint + course_id)
-        course_information = request.json()
-        course = {'courseName': course_information['title']['sv'],
-                  'courseCode': course_id, 'courseCredits': course_information['credits'],
-                  'courseLink': course_information['href']['sv'],
-                  'courseDescription': html.unescape(re.sub('(<p>)|(<\/p>)', '', course_information['info']['sv']))}
-        courses['courses'].append(course)
-    return courses
+    return {'courses': [course.to_dict() for course in courses_ref]}
 
 
 def update_data(session):
@@ -90,10 +78,18 @@ def update_data(session):
 
         batch = db.batch()
         for course_code, course_val in all_exam_statistics.items():
+            request = requests.get(courses_endpoint + course_code)
+            course_information = request.json()
+            course_doc_ref = db.collection(
+                'examstatistics').document(course_code)
+            batch.set(course_doc_ref, {'courseName': course_information['title']['sv'],
+                                       'courseCode': course_code, 'courseCredits': course_information['credits'],
+                                       'courseLink': course_information['href']['sv'],
+                                       'courseDescription': html.unescape(re.sub('(<p>)|(<\/p>)', '', course_information['info']['sv']))})
             for exam_date, exam_val in course_val.items():
-                doc_ref = db.collection('examstatistics').document(
+                exam_doc_ref = db.collection('examstatistics').document(
                     course_code).collection(exam_date).document(exam_date)
-                batch.set(doc_ref, exam_val)
+                batch.set(exam_doc_ref, exam_val)
 
         batch.commit()
         return "Successfully updated exam statistics in: " + str(round(time.time() - time_start, 2)) + "s"
