@@ -1,5 +1,23 @@
 @import "../../../global/global.scss";
 
+.stretchDropdown {
+  min-width: 192px;
+}
+
+.button {
+  font-size: 14px;
+}
+
+.dropdown-menu {
+  padding-bottom: 100px !important;
+}
+
+.dropdown-item {
+  padding: 5px 10px !important;
+  text-align: center !important;
+  font-size: 15px !important;
+}
+
 .courseDescriptionContainer {
   position: relative;
   max-height: 4rem;

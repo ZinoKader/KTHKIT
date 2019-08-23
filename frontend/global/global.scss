@@ -1208,7 +1208,9 @@ a.box:active {
     color: $g-primaryDarkColor; }
   .button:focus, .button.is-focused {
     border-color: transparent;
-    color: $g-primaryDarkColor; }
+    color: $g-primaryDarkColor;
+    outline: none !important;
+    box-shadow: 0 0 0 0.125em rgba(0, 0, 0, 0.15) !important; }
     .button:focus:not(:active), .button.is-focused:not(:active) {
       box-shadow: 0 0 0 0.125em rgba(33, 150, 243, 0.25); }
   .button:active, .button.is-active {
@@ -1900,7 +1902,8 @@ a.box:active {
 
 .container {
   margin: 0 auto;
-  position: relative; }
+  position: initial;
+   }
   @media screen and (min-width: 1088px) {
     .container {
       max-width: 960px;

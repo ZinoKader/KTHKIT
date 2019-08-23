@@ -16,8 +16,13 @@ const Statistics = ({ ctx }) => {
     fetchData();
   }, []);
 
-  const getChartData = async courseCode => {
-    const { data } = await api.getStatisticsForCourse(courseCode);
+  const getExamDates = async courseCode => {
+    const { data } = await api.getExamDatesForCourse(courseCode);
+    return data.dates;
+  };
+
+  const getChartData = async (courseCode, examDate) => {
+    const { data } = await api.getStatisticsForCourse(courseCode, examDate);
     return data;
   };
 
@@ -25,7 +30,7 @@ const Statistics = ({ ctx }) => {
     <Layout title="Tentastatistik" ctx={ctx}>
       <section className="section">
         <div className="container">
-          <h1 className="title">Tentastatistik</h1>
+          {!selectedCourse && <h1 className="title">Tentastatistik</h1>}
           {courses.length === 0 ? (
             <div className="progressContainer">
               <p>Hämtar kurser och statistik från KTH...</p>
@@ -39,7 +44,7 @@ const Statistics = ({ ctx }) => {
                     courseItem={courseItem}
                     courseType={COURSE_TYPE.STATISTIC}
                     selectedCourse={selectedCourse}
-                    methods={{ getChartData, setSelectedCourse }}
+                    methods={{ getExamDates, getChartData, setSelectedCourse }}
                   />
                 ))}
               </ul>

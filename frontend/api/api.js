@@ -7,7 +7,7 @@ const credentialsEndpoint = api + "/credentials";
 const profileEndpoint = api + "/profile";
 const gradesEndpoint = api + "/grades";
 const examDatesForCourseEndpoint = api + "/statistics/course-exams";
-const statisticsForCourseEndpoint = api + "/statistics";
+const statisticsForCourseEndpoint = api + "/statistics/course";
 const statisticsCoursesEndpoint = api + "/statistics/all-courses";
 
 export const validateCredentials = async (username, password) => {
@@ -43,15 +43,15 @@ export const getCourseGrades = (username, password) => {
   });
 };
 
-export const getExamDatesForCourse = courseCode => {
-  return axios.get(examDatesForCourseEndpoint, {
+export const getExamDatesForCourse = async courseCode => {
+  return await axios.get(examDatesForCourseEndpoint, {
     params: { courseCode }
   });
 };
 
-export const getStatisticsForCourse = courseCode => {
-  return axios.get(statisticsForCourseEndpoint, {
-    params: { courseCode }
+export const getStatisticsForCourse = async (courseCode, examDate) => {
+  return await axios.get(statisticsForCourseEndpoint, {
+    params: { courseCode, examDate }
   });
 };
 
