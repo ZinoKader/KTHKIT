@@ -8,6 +8,7 @@ const Bar = ({ data }) => (
   <ResponsiveBar
     data={data}
     keys={["Fx", "F", "E", "D", "C", "B", "A"]}
+    colors={{ scheme: "yellow_green" }}
     indexBy="group_key"
     margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
     padding={0.3}
@@ -41,9 +42,9 @@ const Bar = ({ data }) => (
         justify: false,
         translateX: 120,
         translateY: 0,
-        itemsSpacing: 2,
-        itemWidth: 100,
-        itemHeight: 20,
+        itemsSpacing: 1,
+        itemWidth: 80,
+        itemHeight: 16,
         itemDirection: "left-to-right",
         itemOpacity: 0.85,
         symbolSize: 20,
@@ -57,18 +58,92 @@ const Bar = ({ data }) => (
         ]
       }
     ]}
+    defs={[
+      {
+        id: "AStyle",
+        type: "patternLines",
+        color: "hsl(122, 39%, 49%)",
+        background: "hsl(122, 39%, 49%)"
+      },
+      {
+        id: "BStyle",
+        type: "patternLines",
+        color: "hsl(122, 40%, 58%)",
+        background: "hsl(122, 40%, 58%)"
+      },
+      {
+        id: "CStyle",
+        type: "patternLines",
+        color: "hsl(66, 100%, 42%)",
+        background: "hsl(66, 100%, 42%)"
+      },
+      {
+        id: "DStyle",
+        type: "patternLines",
+        color: "hsl(63, 80%, 60%)",
+        background: "hsl(63, 80%, 60%)"
+      },
+      {
+        id: "EStyle",
+        type: "patternLines",
+        color: "hsl(54, 100%, 62%)",
+        background: "hsl(54, 100%, 62%)"
+      },
+      {
+        id: "FStyle",
+        type: "patternLines",
+        color: "hsl(1, 100%, 59%)",
+        background: "hsl(1, 100%, 59%)"
+      },
+      {
+        id: "FxStyle",
+        type: "patternLines",
+        color: "hsl(359, 61%, 40%)",
+        background: "hsl(359, 61%, 40%)"
+      }
+    ]}
     fill={[
+      {
+        match: {
+          id: "A"
+        },
+        id: "AStyle"
+      },
+      {
+        match: {
+          id: "B"
+        },
+        id: "BStyle"
+      },
+      {
+        match: {
+          id: "C"
+        },
+        id: "CStyle"
+      },
+      {
+        match: {
+          id: "D"
+        },
+        id: "DStyle"
+      },
+      {
+        match: {
+          id: "E"
+        },
+        id: "EStyle"
+      },
       {
         match: {
           id: "F"
         },
-        id: "fColor"
+        id: "FStyle"
       },
       {
         match: {
-          id: "sandwich"
+          id: "Fx"
         },
-        id: "lines"
+        id: "FxStyle"
       }
     ]}
     animate={true}
