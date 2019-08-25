@@ -12,8 +12,12 @@ import statistics
 
 app = Flask(__name__)
 
-CACHE_ONE_DAY = 86400
 CACHE_ONE_HOUR = 3600
+CACHE_ONE_DAY = CACHE_ONE_HOUR * 24
+CACHE_ONE_WEEK = CACHE_ONE_DAY * 7
+CACHE_ONE_MONTH = CACHE_ONE_DAY * 30
+CACHE_ONE_YEAR = CACHE_ONE_MONTH * 12
+
 
 if app.env == 'production':
     app.config.from_mapping({'JSON_AS_ASCII': False, 'CACHE_TYPE': 'filesystem',
