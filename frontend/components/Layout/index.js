@@ -79,7 +79,7 @@ const Layout = ({ children, ctx, title }) => {
           </div>
 
           <div className="navbar-brand">
-            <Link prefetch href="/">
+            <Link href="/">
               <a className="navbar-item">
                 <img src="../../static/logo.png" width="120" height="30" />
               </a>
