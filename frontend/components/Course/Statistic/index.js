@@ -6,14 +6,26 @@ import "./styles.scss";
 
 const Statistic = ({
   courseItem,
-  methods: { setSelectedCourse, getExamDates, getChartData },
   selectedCourse,
+  methods: { setSelectedCourse, getExamDates, getChartData },
   ...restProps
 }) => {
+  const [isMobile, setIsMobile] = useState();
   const [examDates, setExamDates] = useState([]);
   const [selectedExamDate, setSelectedExamDate] = useState();
   const [dropdownActive, setDropdownActive] = useState(false);
+  const [percentizeChart, setPercentizeChart] = useState(true);
   const [courseStatistics, setCourseStatistics] = useState();
+
+  useEffect(() => {
+    window.addEventListener("resize", () =>
+      setIsMobile(window.deviceWidth <= 480)
+    );
+    return () =>
+      window.removeEventListener("resize", () =>
+        setIsMobile(window.deviceWidth <= 480)
+      );
+  }, []);
 
   useEffect(() => {
     const fetchExamDates = async () => {
@@ -24,8 +36,13 @@ const Statistic = ({
         selectedCourse.courseCode,
         selectedExamDate
       );
-      setCourseStatistics(formatStatisticsData(rawChartData));
+      const formattedStatistics = formatStatisticsData(
+        rawChartData,
+        percentizeChart
+      );
+      setCourseStatistics(formattedStatistics);
     };
+
     if (selectedCourse === courseItem) {
       if (examDates.length === 0) {
         fetchExamDates();
@@ -34,7 +51,7 @@ const Statistic = ({
         fetchCourseStatistics();
       }
     }
-  }, [selectedCourse, selectedExamDate]);
+  }, [selectedCourse, selectedExamDate, percentizeChart]);
 
   return (
     <>
@@ -80,7 +97,7 @@ const Statistic = ({
                 <span>
                   {selectedExamDate ? selectedExamDate : "Tentamensdatum"}
                 </span>
-                <span class="icon is-small">
+                <span className="icon is-small">
                   <i className="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
               </div>
@@ -101,9 +118,34 @@ const Statistic = ({
               </div>
             </div>
           </div>
-          <div className="chartContainer">
-            {courseStatistics && <Bar data={courseStatistics} />}
-          </div>
+
+          {courseStatistics && (
+            <>
+              {courseStatistics.length > 0 ? (
+                <>
+                  <div className="controlsContainer">
+                    <input
+                      id="percentizeCheckbox"
+                      className="switch"
+                      type="checkbox"
+                      onChange={() => setPercentizeChart(!percentizeChart)}
+                      checked={!percentizeChart}
+                    ></input>
+                    <label htmlFor="percentizeCheckbox">
+                      Visa absoluta antal
+                    </label>
+                  </div>
+                  <div className="chartContainer">
+                    <Bar data={courseStatistics} percentize={percentizeChart} />
+                  </div>
+                </>
+              ) : (
+                <div className="noDataNotice">
+                  <p>Ingen statistik har publicerats för tentan</p>
+                </div>
+              )}
+            </>
+          )}
         </>
       )}
     </>

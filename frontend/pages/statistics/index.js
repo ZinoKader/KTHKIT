@@ -39,13 +39,19 @@ const Statistics = ({ ctx }) => {
           ) : (
             <div className="content">
               <ul>
-                {courses.map(courseItem => (
-                  <Course
-                    courseItem={courseItem}
-                    courseType={COURSE_TYPE.STATISTIC}
-                    selectedCourse={selectedCourse}
-                    methods={{ getExamDates, getChartData, setSelectedCourse }}
-                  />
+                {courses.map((courseItem, i) => (
+                  <li key={i}>
+                    <Course
+                      courseItem={courseItem}
+                      courseType={COURSE_TYPE.STATISTIC}
+                      selectedCourse={selectedCourse}
+                      methods={{
+                        getExamDates,
+                        getChartData,
+                        setSelectedCourse
+                      }}
+                    />
+                  </li>
                 ))}
               </ul>
             </div>

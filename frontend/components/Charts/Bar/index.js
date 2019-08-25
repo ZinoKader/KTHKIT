@@ -1,21 +1,21 @@
 import { ResponsiveBar } from "@nivo/bar";
-// make sure parent container have a defined height when using
-// responsive component, otherwise height will be 0 and
-// no chart will be rendered.
-// website examples showcase many properties,
-// you'll often use just a few of them.
-const Bar = ({ data }) => (
+
+const percentageFormat = v => `${v}%`;
+
+const Bar = ({ data, percentize = true, compact = false }) => (
   <ResponsiveBar
     data={data}
     keys={["F", "Fx", "E", "D", "C", "B", "A"]}
     colors={{ scheme: "yellow_green" }}
     indexBy="group_key"
-    margin={{ top: 50, right: 70, bottom: 50, left: 60 }}
+    margin={{ top: 5, right: 70, bottom: 50, left: 60 }}
     padding={0.3}
     borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
     animate={true}
-    motionStiffness={90}
-    motionDamping={20}
+    motionStiffness={250}
+    motionDamping={30}
+    labelFormat={percentize ? percentageFormat : v => v}
+    tooltipFormat={percentize ? percentageFormat : v => v}
     labelSkipWidth={12}
     labelSkipHeight={12}
     labelTextColor={{ from: "color", modifiers: [["darker", 5]] }}
@@ -33,7 +33,7 @@ const Bar = ({ data }) => (
       tickSize: 5,
       tickPadding: 5,
       tickRotation: 0,
-      legend: "Betyg",
+      legend: percentize ? "Procent" : "Antal",
       legendPosition: "middle",
       legendOffset: -55
     }}

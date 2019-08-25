@@ -15,36 +15,34 @@ const Course = ({
   methods,
   ...restProps
 }) => (
-  <li key={courseItem.courseCode}>
-    <div
-      className={
-        "box courseContainer" +
-        (selectedCourse
-          ? selectedCourse === courseItem
-            ? " expanded"
-            : " collapsed"
-          : "")
-      }
-    >
-      <p>
-        <strong>
-          {courseItem.courseCode} {courseItem.courseName}
-        </strong>
-      </p>
-      <p>Omfattning: {courseItem.courseCredits} hp</p>
-      {courseType === COURSE_TYPE.GRADE && (
-        <Grade courseItem={courseItem} methods={methods} {...restProps} />
-      )}
-      {courseType === COURSE_TYPE.STATISTIC && (
-        <Statistic
-          courseItem={courseItem}
-          methods={methods}
-          selectedCourse={selectedCourse}
-          {...restProps}
-        />
-      )}
-    </div>
-  </li>
+  <div
+    className={
+      "box courseContainer" +
+      (selectedCourse
+        ? selectedCourse === courseItem
+          ? " expanded"
+          : " collapsed"
+        : "")
+    }
+  >
+    <p>
+      <strong>
+        {courseItem.courseCode} {courseItem.courseName}
+      </strong>
+    </p>
+    <p>Omfattning: {courseItem.courseCredits} hp</p>
+    {courseType === COURSE_TYPE.GRADE && (
+      <Grade courseItem={courseItem} methods={methods} {...restProps} />
+    )}
+    {courseType === COURSE_TYPE.STATISTIC && (
+      <Statistic
+        courseItem={courseItem}
+        methods={methods}
+        selectedCourse={selectedCourse}
+        {...restProps}
+      />
+    )}
+  </div>
 );
 
 export default Course;

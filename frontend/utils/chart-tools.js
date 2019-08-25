@@ -1,13 +1,73 @@
-export const formatStatisticsData = rawData => {
-  const flattenedData = Object.keys(rawData).map(key => {
+const GROUP_ABBREVIATIONS = {
+  CDATE: "D",
+  CELTE: "E",
+  CINEK: "I",
+  CMAST: "M",
+  CDEPR: "DP",
+  CENMI: "EM",
+  CINTE: "IT",
+  CITEH: "IH",
+  CLGYM: "CL",
+  CMATD: "MD",
+  CMEDT: "MT",
+  CMETE: "ME",
+  COPEN: "O",
+  CSAMH: "S",
+  CTKEM: "K",
+  CBIOT: "BI",
+  ALLA: "Σ",
+  "EJ REG": "EJ",
+  OMREG: "OM",
+  ÖVRIGA: "ÖV"
+};
+
+const roundScale = (v, t, precision) =>
+  Math.round(10 * precision * ((100 * v) / t)) / (10 * precision);
+
+const abbreviateGroupName = name => {
+  let isProgramme = !isNaN(name[name.length - 1]);
+  let formattedName = isProgramme ? name.slice(0, name.length - 1) : name;
+  console.log(name, formattedName, isProgramme);
+  if (Object.keys(GROUP_ABBREVIATIONS).includes(formattedName)) {
+    console.log(
+      GROUP_ABBREVIATIONS[formattedName],
+      isProgramme ? name[name.length - 1] : ""
+    );
+    return (
+      GROUP_ABBREVIATIONS[formattedName] +
+      (isProgramme ? name[name.length - 1] : "")
+    );
+  }
+  return name;
+};
+
+// TODO: Format this in backend, add percentized and raw grades as objects and filter one out based on 'percentized' param
+export const formatStatisticsData = (rawData, percentized = true) => {
+  const formattedData = Object.keys(rawData).map(groupKey => {
+    const totalWriters = Object.values(rawData[groupKey]["grade"]).reduce(
+      (acc, writers) => (acc += writers)
+    );
+
+    let percentageGrades = {};
+    if (percentized) {
+      Object.keys(rawData[groupKey]["grade"]).map(gradeKey => {
+        percentageGrades[gradeKey] = roundScale(
+          rawData[groupKey]["grade"][gradeKey],
+          totalWriters,
+          1
+        );
+      });
+    }
+
     const flattened = {
-      group_key: key,
-      ...rawData[key]["grade"],
-      ...rawData[key]
+      group_key: abbreviateGroupName(groupKey),
+      ...(percentized ? percentageGrades : rawData[groupKey]["grade"]),
+      ...rawData[groupKey]
     };
     delete flattened.grade;
+
     return flattened;
   });
 
-  return flattenedData;
+  return formattedData;
 };
