@@ -24,11 +24,16 @@ const Statistic = ({
         selectedCourse.courseCode,
         selectedExamDate
       );
-      console.log(rawChartData);
       setCourseStatistics(formatStatisticsData(rawChartData));
     };
-    selectedCourse === courseItem && examDates.length === 0 && fetchExamDates();
-    selectedExamDate && fetchCourseStatistics();
+    if (selectedCourse === courseItem) {
+      if (examDates.length === 0) {
+        fetchExamDates();
+      }
+      if (selectedExamDate) {
+        fetchCourseStatistics();
+      }
+    }
   }, [selectedCourse, selectedExamDate]);
 
   return (
@@ -58,45 +63,49 @@ const Statistic = ({
         {selectedCourse ? "Göm statistik" : "Visa statistik"}
       </a>
       {selectedCourse && (
-        <div
-          className={classnames("dropdown", "stretchDropdown", {
-            ["is-active"]: dropdownActive
-          })}
-          onClick={() => setDropdownActive(!dropdownActive)}
-        >
-          <div className="dropdown-trigger stretchDropdown">
-            <div
-              className="button stretchDropdown"
-              aria-haspopup="true"
-              aria-controls="dropdown-menu"
-              tabIndex="1"
-            >
-              <span>
-                {selectedExamDate ? selectedExamDate : "Tentamensdatum"}
-              </span>
-              <span class="icon is-small">
-                <i className="fas fa-angle-down" aria-hidden="true"></i>
-              </span>
+        <>
+          <div
+            className={classnames("dropdown", "stretchDropdown", {
+              ["is-active"]: dropdownActive
+            })}
+            onClick={() => setDropdownActive(!dropdownActive)}
+          >
+            <div className="dropdown-trigger stretchDropdown">
+              <div
+                className="button stretchDropdown"
+                aria-haspopup="true"
+                aria-controls="dropdown-menu"
+                tabIndex="1"
+              >
+                <span>
+                  {selectedExamDate ? selectedExamDate : "Tentamensdatum"}
+                </span>
+                <span class="icon is-small">
+                  <i className="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+            <div className="dropdown-menu" id="dropdown-menu" role="menu">
+              <div className="dropdown-content">
+                {examDates.map((examDate, i) => (
+                  <a
+                    key={i}
+                    className={classnames("dropdown-item", {
+                      ["is-active"]: examDate === selectedExamDate
+                    })}
+                    onClick={() => setSelectedExamDate(examDate)}
+                  >
+                    {examDate}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
-          <div className="dropdown-menu" id="dropdown-menu" role="menu">
-            <div className="dropdown-content">
-              {examDates.map((examDate, i) => (
-                <a
-                  key={i}
-                  className={classnames("dropdown-item", {
-                    ["is-active"]: examDate === selectedExamDate
-                  })}
-                  onClick={() => setSelectedExamDate(examDate)}
-                >
-                  {examDate}
-                </a>
-              ))}
-            </div>
+          <div className="chartContainer">
+            {courseStatistics && <Bar data={courseStatistics} />}
           </div>
-        </div>
+        </>
       )}
-      {courseStatistics && <Bar data={courseStatistics} />}
     </>
   );
 };

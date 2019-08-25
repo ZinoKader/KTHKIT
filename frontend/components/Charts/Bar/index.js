@@ -7,21 +7,27 @@ import { ResponsiveBar } from "@nivo/bar";
 const Bar = ({ data }) => (
   <ResponsiveBar
     data={data}
-    keys={["Fx", "F", "E", "D", "C", "B", "A"]}
+    keys={["F", "Fx", "E", "D", "C", "B", "A"]}
     colors={{ scheme: "yellow_green" }}
     indexBy="group_key"
-    margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+    margin={{ top: 50, right: 70, bottom: 50, left: 60 }}
     padding={0.3}
     borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
+    animate={true}
+    motionStiffness={90}
+    motionDamping={20}
+    labelSkipWidth={12}
+    labelSkipHeight={12}
+    labelTextColor={{ from: "color", modifiers: [["darker", 5]] }}
     axisTop={null}
     axisRight={null}
     axisBottom={{
-      tickSize: 5,
+      tickSize: 4,
       tickPadding: 5,
       tickRotation: 0,
       legend: "Program/Grupp",
       legendPosition: "middle",
-      legendOffset: 32
+      legendOffset: 40
     }}
     axisLeft={{
       tickSize: 5,
@@ -29,25 +35,22 @@ const Bar = ({ data }) => (
       tickRotation: 0,
       legend: "Betyg",
       legendPosition: "middle",
-      legendOffset: -40
+      legendOffset: -55
     }}
-    labelSkipWidth={12}
-    labelSkipHeight={12}
-    labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
     legends={[
       {
         dataFrom: "keys",
         anchor: "bottom-right",
         direction: "column",
-        justify: false,
-        translateX: 120,
+        justify: true,
+        translateX: 70,
         translateY: 0,
-        itemsSpacing: 1,
-        itemWidth: 80,
-        itemHeight: 16,
+        itemsSpacing: 2.5,
+        itemWidth: 40,
+        itemHeight: 25,
         itemDirection: "left-to-right",
         itemOpacity: 0.85,
-        symbolSize: 20,
+        symbolSize: 15,
         effects: [
           {
             on: "hover",
@@ -61,45 +64,59 @@ const Bar = ({ data }) => (
     defs={[
       {
         id: "AStyle",
-        type: "patternLines",
-        color: "hsl(122, 39%, 49%)",
-        background: "hsl(122, 39%, 49%)"
+        type: "linearGradient",
+        colors: [
+          { offset: 0, color: "hsl(122, 39%, 49%)" },
+          { offset: 100, color: "hsl(122, 39%, 49%)" }
+        ]
       },
       {
         id: "BStyle",
-        type: "patternLines",
-        color: "hsl(122, 40%, 58%)",
-        background: "hsl(122, 40%, 58%)"
+        type: "linearGradient",
+        colors: [
+          { offset: 0, color: "hsl(122, 40%, 58%)" },
+          { offset: 100, color: "hsl(122, 40%, 58%)" }
+        ]
       },
       {
         id: "CStyle",
-        type: "patternLines",
-        color: "hsl(66, 100%, 42%)",
-        background: "hsl(66, 100%, 42%)"
+        type: "linearGradient",
+        colors: [
+          { offset: 0, color: "hsl(66, 100%, 42%)" },
+          { offset: 100, color: "hsl(66, 100%, 42%)" }
+        ]
       },
       {
         id: "DStyle",
-        type: "patternLines",
-        color: "hsl(63, 80%, 60%)",
-        background: "hsl(63, 80%, 60%)"
+        type: "linearGradient",
+        colors: [
+          { offset: 0, color: "hsl(63, 80%, 60%)" },
+          { offset: 100, color: "hsl(63, 80%, 60%)" }
+        ]
       },
       {
         id: "EStyle",
-        type: "patternLines",
-        color: "hsl(54, 100%, 62%)",
-        background: "hsl(54, 100%, 62%)"
-      },
-      {
-        id: "FStyle",
-        type: "patternLines",
-        color: "hsl(1, 100%, 59%)",
-        background: "hsl(1, 100%, 59%)"
+        type: "linearGradient",
+        colors: [
+          { offset: 0, color: "hsl(54, 100%, 62%)" },
+          { offset: 100, color: "hsl(54, 100%, 62%)" }
+        ]
       },
       {
         id: "FxStyle",
-        type: "patternLines",
-        color: "hsl(359, 61%, 40%)",
-        background: "hsl(359, 61%, 40%)"
+        type: "linearGradient",
+        colors: [
+          { offset: 0, color: "hsl(1, 100%, 59%)" },
+          { offset: 100, color: "hsl(1, 100%, 59%)" }
+        ]
+      },
+      {
+        id: "FStyle",
+        type: "linearGradient",
+        colors: [
+          { offset: 0, color: "hsl(359, 61%, 45%)" },
+          { offset: 100, color: "hsl(359, 61%, 45%)" }
+        ]
       }
     ]}
     fill={[
@@ -135,20 +152,17 @@ const Bar = ({ data }) => (
       },
       {
         match: {
-          id: "F"
-        },
-        id: "FStyle"
-      },
-      {
-        match: {
           id: "Fx"
         },
         id: "FxStyle"
+      },
+      {
+        match: {
+          id: "F"
+        },
+        id: "FStyle"
       }
     ]}
-    animate={true}
-    motionStiffness={90}
-    motionDamping={15}
   />
 );
 
