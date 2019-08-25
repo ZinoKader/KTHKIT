@@ -7,25 +7,16 @@ import "./styles.scss";
 const Statistic = ({
   courseItem,
   selectedCourse,
-  methods: { setSelectedCourse, getExamDates, getChartData },
+  methods: { setSelectedCourse, getExamDates, getChartData, getDeviceWidth },
   ...restProps
 }) => {
-  const [isMobile, setIsMobile] = useState();
   const [examDates, setExamDates] = useState([]);
   const [selectedExamDate, setSelectedExamDate] = useState();
   const [dropdownActive, setDropdownActive] = useState(false);
   const [percentizeChart, setPercentizeChart] = useState(true);
   const [courseStatistics, setCourseStatistics] = useState();
 
-  useEffect(() => {
-    window.addEventListener("resize", () =>
-      setIsMobile(window.deviceWidth <= 480)
-    );
-    return () =>
-      window.removeEventListener("resize", () =>
-        setIsMobile(window.deviceWidth <= 480)
-      );
-  }, []);
+  const compactBreakpoint = 480;
 
   useEffect(() => {
     const fetchExamDates = async () => {
@@ -136,7 +127,11 @@ const Statistic = ({
                     </label>
                   </div>
                   <div className="chartContainer">
-                    <Bar data={courseStatistics} percentize={percentizeChart} />
+                    <Bar
+                      data={courseStatistics}
+                      percentize={percentizeChart}
+                      compact={getDeviceWidth() <= compactBreakpoint}
+                    />
                   </div>
                 </>
               ) : (

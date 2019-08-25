@@ -8,13 +8,18 @@ const Bar = ({ data, percentize = true, compact = false }) => (
     keys={["F", "Fx", "E", "D", "C", "B", "A"]}
     colors={{ scheme: "yellow_green" }}
     indexBy="group_key"
-    margin={{ top: 5, right: 70, bottom: 50, left: 60 }}
-    padding={0.3}
+    margin={{
+      top: 5,
+      right: compact ? 0 : 70,
+      bottom: 50,
+      left: compact ? 0 : 60
+    }}
+    padding={compact ? 0.6 : 0.28}
     borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
     animate={true}
     motionStiffness={250}
     motionDamping={30}
-    labelFormat={percentize ? percentageFormat : v => v}
+    labelFormat={compact ? () => "" : percentize ? percentageFormat : v => v}
     tooltipFormat={percentize ? percentageFormat : v => v}
     labelSkipWidth={12}
     labelSkipHeight={12}
@@ -22,45 +27,51 @@ const Bar = ({ data, percentize = true, compact = false }) => (
     axisTop={null}
     axisRight={null}
     axisBottom={{
-      tickSize: 4,
-      tickPadding: 5,
+      tickSize: 6,
+      tickPadding: compact ? 0 : 5,
       tickRotation: 0,
-      legend: "Program/Grupp",
+      legend: compact
+        ? `Y-axel: ${percentize ? "Procent" : "Antal"} | X-axel: Program/Grupp`
+        : "Program/Grupp",
       legendPosition: "middle",
-      legendOffset: 40
+      legendOffset: compact ? 35 : 40
     }}
     axisLeft={{
       tickSize: 5,
-      tickPadding: 5,
+      tickPadding: compact ? 0 : 5,
       tickRotation: 0,
-      legend: percentize ? "Procent" : "Antal",
+      legend: compact ? "" : percentize ? "Procent" : "Antal",
       legendPosition: "middle",
-      legendOffset: -55
+      legendOffset: compact ? -35 : -55
     }}
-    legends={[
-      {
-        dataFrom: "keys",
-        anchor: "bottom-right",
-        direction: "column",
-        justify: true,
-        translateX: 70,
-        translateY: 0,
-        itemsSpacing: 2.5,
-        itemWidth: 40,
-        itemHeight: 25,
-        itemDirection: "left-to-right",
-        itemOpacity: 0.85,
-        symbolSize: 15,
-        effects: [
-          {
-            on: "hover",
-            style: {
-              itemOpacity: 1
+    legends={
+      compact
+        ? []
+        : [
+            {
+              dataFrom: "keys",
+              anchor: "bottom-right",
+              direction: "column",
+              justify: true,
+              translateX: 60,
+              translateY: 0,
+              itemsSpacing: 2.5,
+              itemWidth: 40,
+              itemHeight: 25,
+              itemDirection: "left-to-right",
+              itemOpacity: 0.85,
+              symbolSize: 15,
+              effects: [
+                {
+                  on: "hover",
+                  style: {
+                    itemOpacity: 1
+                  }
+                }
+              ]
             }
-          }
-        ]
-      }
-    ]}
+          ]
+    }
     defs={[
       {
         id: "AStyle",

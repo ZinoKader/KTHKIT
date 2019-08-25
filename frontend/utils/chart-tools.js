@@ -27,12 +27,7 @@ const roundScale = (v, t, precision) =>
 const abbreviateGroupName = name => {
   let isProgramme = !isNaN(name[name.length - 1]);
   let formattedName = isProgramme ? name.slice(0, name.length - 1) : name;
-  console.log(name, formattedName, isProgramme);
   if (Object.keys(GROUP_ABBREVIATIONS).includes(formattedName)) {
-    console.log(
-      GROUP_ABBREVIATIONS[formattedName],
-      isProgramme ? name[name.length - 1] : ""
-    );
     return (
       GROUP_ABBREVIATIONS[formattedName] +
       (isProgramme ? name[name.length - 1] : "")

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import * as api from "../../api/api";
+import { useWindowSize } from "../../utils/device-tools";
 import "./styles.scss";
 import Course, { COURSE_TYPE } from "../../components/Course";
 
 const Statistics = ({ ctx }) => {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState();
+  const windowSize = useWindowSize();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +50,8 @@ const Statistics = ({ ctx }) => {
                       methods={{
                         getExamDates,
                         getChartData,
-                        setSelectedCourse
+                        setSelectedCourse,
+                        getDeviceWidth: () => windowSize.width
                       }}
                     />
                   </li>
