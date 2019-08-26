@@ -6,7 +6,15 @@ const Bar = ({ data, percentize = true, compact = false }) => (
   <ResponsiveBar
     data={data}
     keys={["F", "Fx", "E", "D", "C", "B", "A"]}
-    colors={{ scheme: "yellow_green" }}
+    colors={[
+      "hsl(359, 61%, 45%)",
+      "hsl(1, 100%, 59%)",
+      "hsl(54, 100%, 62%)",
+      "hsl(63, 80%, 60%)",
+      "hsl(66, 100%, 42%)",
+      "hsl(122, 40%, 58%)",
+      "hsl(122, 39%, 49%)"
+    ]}
     indexBy="group_key"
     margin={{
       top: 5,
@@ -42,7 +50,7 @@ const Bar = ({ data, percentize = true, compact = false }) => (
       tickRotation: 0,
       legend: compact ? "" : percentize ? "Procent" : "Antal",
       legendPosition: "middle",
-      legendOffset: compact ? -35 : -55
+      legendOffset: compact ? -35 : -50
     }}
     legends={
       compact
@@ -53,7 +61,7 @@ const Bar = ({ data, percentize = true, compact = false }) => (
               anchor: "bottom-right",
               direction: "column",
               justify: true,
-              translateX: 60,
+              translateX: 55,
               translateY: 0,
               itemsSpacing: 2.5,
               itemWidth: 40,
