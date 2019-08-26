@@ -6,22 +6,7 @@ const Bar = ({ data, percentize = true, compact = false }) => (
   <ResponsiveBar
     data={data}
     keys={["F", "Fx", "E", "D", "C", "B", "A"]}
-    colors={[
-      "hsl(359, 61%, 45%)",
-      "hsl(1, 100%, 59%)",
-      "hsl(54, 100%, 62%)",
-      "hsl(63, 80%, 60%)",
-      "hsl(66, 100%, 42%)",
-      "hsl(122, 40%, 58%)",
-      "hsl(122, 39%, 49%)"
-    ]}
     indexBy="group_key"
-    margin={{
-      top: 5,
-      right: compact ? 0 : 70,
-      bottom: 50,
-      left: compact ? 0 : 60
-    }}
     padding={compact ? 0.6 : 0.28}
     borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
     animate={true}
@@ -34,6 +19,28 @@ const Bar = ({ data, percentize = true, compact = false }) => (
     labelTextColor={{ from: "color", modifiers: [["darker", 5]] }}
     axisTop={null}
     axisRight={null}
+    margin={{
+      top: 5,
+      right: compact ? 0 : 70,
+      bottom: 50,
+      left: compact ? 0 : 60
+    }}
+    colors={[
+      "hsl(359, 61%, 45%)",
+      "hsl(1, 100%, 59%)",
+      "hsl(54, 100%, 62%)",
+      "hsl(63, 80%, 60%)",
+      "hsl(66, 100%, 42%)",
+      "hsl(122, 40%, 58%)",
+      "hsl(122, 39%, 49%)"
+    ]}
+    tooltip={({ id, value, indexValue, data }) => (
+      <strong>
+        {data.full_name} ({indexValue})
+        <br />
+        {id}: {percentize ? percentageFormat(value) : value}
+      </strong>
+    )}
     axisBottom={{
       tickSize: 6,
       tickPadding: compact ? 0 : 5,

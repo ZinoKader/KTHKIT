@@ -16,6 +16,8 @@ const GROUP_ABBREVIATIONS = {
   CTKEM: "K",
   CBIOT: "BI",
   TCOMK: "KT",
+  CTFYS: "F",
+  CFATE: "FT",
   ALLA: "Σ",
   "EJ REG": "EJ",
   OMREG: "OM",
@@ -40,12 +42,12 @@ const abbreviateGroupName = name => {
 // TODO: Format this in backend, add percentized and raw grades as objects and filter one out based on 'percentized' param
 export const formatStatisticsData = (rawData, percentized = true) => {
   const formattedData = Object.keys(rawData).map(groupKey => {
-    const totalWriters = Object.values(rawData[groupKey]["grade"]).reduce(
-      (acc, writers) => (acc += writers)
-    );
 
     let percentageGrades = {};
     if (percentized) {
+      const totalWriters = Object.values(rawData[groupKey]["grade"]).reduce(
+        (acc, writers) => (acc += writers)
+      );
       Object.keys(rawData[groupKey]["grade"]).map(gradeKey => {
         percentageGrades[gradeKey] = roundScale(
           rawData[groupKey]["grade"][gradeKey],
