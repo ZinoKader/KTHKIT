@@ -15,6 +15,7 @@ const GROUP_ABBREVIATIONS = {
   CSAMH: "S",
   CTKEM: "K",
   CBIOT: "BI",
+  TCOMK: "KT",
   ALLA: "Σ",
   "EJ REG": "EJ",
   OMREG: "OM",
