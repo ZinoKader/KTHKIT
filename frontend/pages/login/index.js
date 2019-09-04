@@ -96,7 +96,7 @@ const Login = ({ ctx, from }) => {
                   }}
                 >
                   <p
-                    className={classnames("help", "is-danger", {
+                    className={classnames("formErrorMessage", "help", "is-danger", {
                       "is-hidden": generalErrorMessage.length === 0
                     })}
                     style={{ textAlign: "center" }}
