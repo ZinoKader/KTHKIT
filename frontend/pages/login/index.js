@@ -31,26 +31,23 @@ const Login = ({ ctx, from }) => {
     if (usernameFormatValidity && passwordFormatValidity) {
       setLoading(true);
       const credentialsValid = await validateCredentials(username, password);
-      credentialsValid
-        ? getProfile(username)
-            .then(({ data }) => {
-              setProfileCookies(
-                ctx,
-                data.givenName,
-                data.familyName,
-                data.image
-              );
-              setAuthCookies(ctx, username, password);
-              Router.push(from ? from : "/");
-            })
-            .catch(() =>
-              setGeneralErrorMessage("Ett oväntat fel inträffade, försök igen!")
-            )
-            .finally(() => {
-              setLoading(false);
-            })
-        : setLoading(false) &&
-          setGeneralErrorMessage("Fel inloggningsuppgifter, försök igen!");
+      if (credentialsValid) {
+        getProfile(username)
+          .then(({ data }) => {
+            setProfileCookies(ctx, data.givenName, data.familyName, data.image);
+            setAuthCookies(ctx, username, password);
+            Router.push(from ? from : "/");
+          })
+          .catch(() =>
+            setGeneralErrorMessage("Ett oväntat fel inträffade, försök igen!")
+          )
+          .finally(() => {
+            setLoading(false);
+          });
+      } else {
+        setLoading(false);
+        setGeneralErrorMessage("Fel inloggningsuppgifter, försök igen!");
+      }
     }
   };
 
