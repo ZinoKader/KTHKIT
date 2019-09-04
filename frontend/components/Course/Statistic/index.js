@@ -73,9 +73,14 @@ const Statistic = ({
       {selectedCourse && (
         <>
           <div
-            className={classnames("dropdown", "stretchDropdown", {
-              ["is-active"]: dropdownActive
-            })}
+            className={classnames(
+              "dateDropDown",
+              "dropdown",
+              "stretchDropdown",
+              {
+                ["is-active"]: dropdownActive
+              }
+            )}
             onClick={() => setDropdownActive(!dropdownActive)}
           >
             <div className="dropdown-trigger stretchDropdown">

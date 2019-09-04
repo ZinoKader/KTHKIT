@@ -1,5 +1,9 @@
 @import "../../../global/global.scss";
 
+.dateDropDown {
+  margin-bottom: 50px;
+}
+
 .stretchDropdown {
   min-width: 192px;
 }
@@ -25,7 +29,7 @@
 
   &.expanded {
     max-height: none;
-    max-width: 350px;
+    max-width: 315px;
     margin: auto;
     text-align: justify;
     text-align-last: center;
@@ -135,7 +139,7 @@
 }
 
 .controlsContainer {
-  padding: 50px;
+  padding-bottom: 50px;
   display: block;
 }
 
