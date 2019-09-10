@@ -112,7 +112,7 @@ const Layout = ({ children, ctx, title }) => {
 
       <footer className="footer">
         <div className="content has-text-centered">
-          <span>Zino Kader</span>
+          <span>Utveckling: Zino Kader, Design: John Janér</span>
         </div>
       </footer>
     </div>
