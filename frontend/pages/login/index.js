@@ -35,14 +35,16 @@ const Login = ({ ctx, from }) => {
         getProfile(username)
           .then(({ data }) => {
             setProfileCookies(ctx, data.givenName, data.familyName, data.image);
-            setAuthCookies(ctx, username, password);
-            Router.push(from ? from : "/");
           })
           .catch(() =>
-            setGeneralErrorMessage("Ett oväntat fel inträffade, försök igen!")
+            setGeneralErrorMessage(
+              "Kunde inte hämta profildata - loggar in ändå"
+            )
           )
           .finally(() => {
             setLoading(false);
+            setAuthCookies(ctx, username, password);
+            Router.push(from ? from : "/");
           });
       } else {
         setLoading(false);
@@ -96,9 +98,14 @@ const Login = ({ ctx, from }) => {
                   }}
                 >
                   <p
-                    className={classnames("formErrorMessage", "help", "is-danger", {
-                      "is-hidden": generalErrorMessage.length === 0
-                    })}
+                    className={classnames(
+                      "formErrorMessage",
+                      "help",
+                      "is-danger",
+                      {
+                        "is-hidden": generalErrorMessage.length === 0
+                      }
+                    )}
                     style={{ textAlign: "center" }}
                   >
                     {generalErrorMessage}
