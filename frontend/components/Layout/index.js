@@ -29,6 +29,14 @@ const Layout = ({ children, ctx, title }) => {
       <Head>
         <title>KTHKIT{title ? " - " + title : ""}</title>
         <script defer src="https://kit.fontawesome.com/befefca298.js"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148473627-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-148473627-1');
+        </script>
       </Head>
       <header>
         <nav className="navbar" role="navigation" aria-label="main navigation">
