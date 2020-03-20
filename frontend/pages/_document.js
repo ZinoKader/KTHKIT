@@ -16,9 +16,12 @@ export default class MyDocument extends Document {
              Räkna betygssnitt, ladda ned gamla tentor, se tentastatistik och mer."
           />
           <meta property="og:type" content="website" />
-          <meta property="og:title" content="KTHKIT">
-          <meta property="og:description" content="KTHKIT - Den kompletta verktygslådan för KTH-studenten. 
-          Räkna betygssnitt, ladda ned gamla tentor, se tentastatistik och mer" />
+          <meta property="og:title" content="KTHKIT" />
+          <meta
+            property="og:description"
+            content="KTHKIT - Den kompletta verktygslådan för KTH-studenten. 
+          Räkna betygssnitt, ladda ned gamla tentor, se tentastatistik och mer"
+          />
           <meta property="og:url" content="https://kthkit.se" />
           <meta property="og:image" content="/static/logo_og.png" />
           <meta
