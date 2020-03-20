@@ -10,3 +10,18 @@
     align-self: center;
   }
 }
+
+.serviceTile {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  > * {
+    flex-basis: 33%;
+  }
+
+  > p {
+    text-align: center;
+  }
+}

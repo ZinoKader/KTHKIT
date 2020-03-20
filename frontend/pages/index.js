@@ -12,25 +12,25 @@ const Home = ({ ctx }) => {
           <div className="tile is-ancestor">
             <Link href="/login">
               <div className="tile is-4 is-parent">
-                <div className="tile is-child box">
-                  <p className="subtitle">Gamla tentor</p>
+                <div className="tile is-child box serviceTile">
                   <p>Se och ladda ned gamla tentor från hela X kurser</p>
+                  <p className="subtitle">Gamla tentor</p>
                 </div>
               </div>
             </Link>
             <Link href="/statistics">
               <div className="tile is-4 is-parent">
-                <div className="tile is-child box">
-                  <p className="subtitle">Tentastatistik</p>
+                <div className="tile is-child box serviceTile">
                   <p>Se tentastatistik</p>
+                  <p className="subtitle">Tentastatistik</p>
                 </div>
               </div>
             </Link>
             <Link href="/grades">
               <div className="tile is-4 is-parent">
-                <div className="tile is-child box">
-                  <p className="subtitle">Räkna betygssnitt</p>
+                <div className="tile is-child box serviceTile">
                   <p>Räkna ut ditt betygssnitt</p>
+                  <p className="subtitle">Räkna betygssnitt</p>
                 </div>
               </div>
             </Link>
