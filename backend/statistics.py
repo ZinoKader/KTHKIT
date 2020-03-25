@@ -63,19 +63,22 @@ def update_data(session):
 
         all_exam_statistics = {}
         for exam_link in exam_links:
-            course_code = re.search('/stat/(.*)/tenres/', exam_link).group(1)
-            request = session.get(stats_base_url + exam_link)
-            exam_date = re.search(course_code + ': (.*)</h1>',
-                                  request.text).group(1)
-            exam_stats = bytes(re.search('tentastat = \n(.*)',
-                                         request.text).group(1), 'utf-8').decode('unicode-escape')
+            try:
+                course_code = re.search(
+                    '/stat/(.*)/tenres/', exam_link).group(1)
+                request = session.get(stats_base_url + exam_link)
+                exam_date = re.search(course_code + ': (.*)</h1>',
+                                      request.text).group(1)
+                exam_stats = bytes(re.search('tentastat = \n(.*)',
+                                             request.text).group(1), 'utf-8').decode('unicode-escape')
 
-            if course_code not in all_exam_statistics:
-                all_exam_statistics[course_code] = {}
+                if course_code not in all_exam_statistics:
+                    all_exam_statistics[course_code] = {}
 
-            all_exam_statistics[course_code][exam_date] = json.loads(
-                exam_stats)
-
+                all_exam_statistics[course_code][exam_date] = json.loads(
+                    exam_stats)
+            except Exception as e:
+                print(e)
         batch = db.batch()
         for course_code, course_val in all_exam_statistics.items():
             request = requests.get(courses_endpoint + course_code)
@@ -94,5 +97,5 @@ def update_data(session):
         batch.commit()
         return "Successfully updated exam statistics in: " + str(round(time.time() - time_start, 2)) + "s"
     except Exception as e:
-        print(repr(e))
+        print(e)
         return "Failed to update exam statistics, time elapsed: " + str(round(time.time() - time_start, 2)) + "s"
