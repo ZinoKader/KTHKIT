@@ -15,9 +15,9 @@ const Grade = ({ courseItem, isGraded, methods: { changeGrade } }) => {
           {Object.keys(gradeWeights).map((gradeKey, i) => (
             <option
               key={courseItem.courseName + courseItem.courseGrade + i}
-              label={gradeWeights[gradeKey].name}
+              value={gradeKey}
             >
-              {gradeKey}
+              {gradeWeights[gradeKey].name}
             </option>
           ))}
         </select>
