@@ -88,6 +88,9 @@
 
   .card-footer {
     padding-top: 10px;
+    @include md {
+      flex-direction: column;
+    }
   }
 
   .card-footer-item:not(:last-child) {
