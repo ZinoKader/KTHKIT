@@ -2,11 +2,6 @@
 
 .courseContainer {
   max-width: 500px;
-
-  @include sm {
-    max-width: 300px;
-  }
-
   margin-bottom: 25px;
 
   &.expanded {

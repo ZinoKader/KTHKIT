@@ -1,3 +1,5 @@
+@import "../../global/vars";
+
 .progressContainer {
   display: flex;
   flex-direction: column;
@@ -57,13 +59,10 @@
 
   .gradesTooltip::before,
   .gradesTooltip::after {
-    font-weight: normal;
-    text-transform: initial;
-    border-radius: 6px !important;
+    border-radius: 6px;
     border: none !important;
-    font-size: 0.8rem !important;
-    background: white !important;
-    color: #363636 !important;
+    background: white;
+    color: #363636;
     cursor: pointer;
   }
 
@@ -71,6 +70,10 @@
     box-shadow: rgba(0, 0, 0, 0.2) 1px 3px 6px -2px,
       rgba(0, 0, 0, 0.14) 0px -1px 3px 0px,
       rgba(0, 0, 0, 0.12) 0px -1px 10px 5px;
+
+    @include md {
+      min-width: 11rem;
+    }
   }
 
   .card-header {
@@ -80,6 +83,7 @@
   .card-header-title {
     justify-content: center;
     margin-top: 10px;
+    font-size: 1.8em;
   }
 
   .card-footer {
