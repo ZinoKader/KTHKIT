@@ -113,12 +113,20 @@ const Grades = ({ ctx }) => {
     newCourses.unshift({
       courseCredits,
       courseGrade,
-      courseName
+      courseName,
+      isCustom: true
     });
     setFinishedCourses(newCourses);
   };
 
   const commaStringToFloat = s => parseFloat(s.replace(",", "."));
+
+  const removeCourse = courseName => {
+    const newCourses = cloneDeep(finishedCourses);
+    setFinishedCourses(
+      newCourses.filter(course => course.courseName !== courseName)
+    );
+  };
 
   const courseTitleExists = courseName =>
     finishedCourses
@@ -365,8 +373,9 @@ const Grades = ({ ctx }) => {
                         key={courseItem.courseName + i}
                         courseItem={courseItem}
                         courseType={COURSE_TYPE.GRADE}
-                        methods={{ changeGrade }}
+                        methods={{ changeGrade, removeCourse }}
                         isGraded
+                        isCustom={courseItem.isCustom}
                       />
                     ))}
                   </ul>

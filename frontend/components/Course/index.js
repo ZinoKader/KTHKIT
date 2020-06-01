@@ -14,6 +14,8 @@ const Course = ({
   courseType,
   selectedCourse,
   methods,
+  methods: { removeCourse },
+  isCustom,
   ...restProps
 }) => (
   <div
@@ -24,9 +26,16 @@ const Course = ({
           ? styles.expanded
           : styles.collapsed
         : "",
+      courseType === COURSE_TYPE.GRADE ? styles.hasClose : "",
       "box"
     )}
   >
+    {courseType === COURSE_TYPE.GRADE && isCustom && (
+      <a
+        className={classnames(styles.close, "delete", "is-small")}
+        onClick={() => removeCourse(courseItem.courseName)}
+      ></a>
+    )}
     <p>
       <strong>
         {courseItem.courseCode} {courseItem.courseName}
