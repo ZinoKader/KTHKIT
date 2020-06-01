@@ -1,4 +1,9 @@
-@import "../../global/global.scss";
+.content {
+  text-align: center;
+  > :first-child {
+    margin-top: 10px;
+  }
+}
 
 .progressContainer {
   display: flex;

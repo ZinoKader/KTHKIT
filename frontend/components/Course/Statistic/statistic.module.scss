@@ -1,4 +1,4 @@
-@import "../../../global/global.scss";
+@import "../../../global/vars";
 
 .dateDropDown {
   margin-bottom: 50px;
@@ -13,13 +13,13 @@
 }
 
 .dropdown-menu {
-  padding-bottom: 100px !important;
+  padding-bottom: 100px;
 }
 
 .dropdown-item {
   padding: 5px 10px !important;
   text-align: center !important;
-  font-size: 15px !important;
+  font-size: 15px;
 }
 
 .courseDescriptionContainer {
@@ -148,5 +148,5 @@
 }
 
 .switch[type="checkbox"]:checked + label::before {
-  background: $g-deepDarkBlue !important;
+  background: $g-deepDarkBlue;
 }

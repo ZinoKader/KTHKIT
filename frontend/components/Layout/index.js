@@ -8,7 +8,8 @@ import {
   setProfileState,
   isLoggedIn
 } from "../../utils/login-tools";
-import styles from "./styles.scss";
+import styles from "./layout.module.scss";
+import { initGA, logPageView } from "../../utils/analytics";
 
 const Layout = ({ children, ctx, title }) => {
   const [fullName, setFullName] = useState("");
@@ -22,6 +23,11 @@ const Layout = ({ children, ctx, title }) => {
 
   useEffect(() => {
     setProfileState(ctx, setFullName, setProfileImageUrl);
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
   }, []);
 
   return (
@@ -30,11 +36,15 @@ const Layout = ({ children, ctx, title }) => {
         <title>KTHKIT{title ? " - " + title : ""}</title>
         <script defer src="https://kit.fontawesome.com/befefca298.js"></script>
       </Head>
-      <header>
-        <nav className="navbar" role="navigation" aria-label="main navigation">
+      <header className={styles.header}>
+        <nav
+          className={classnames("navbar", styles.navbar)}
+          role="navigation"
+          aria-label="main navigation"
+        >
           <a
             role="button"
-            className={classnames("navbar-burger", {
+            className={classnames(styles["navbar-burger"], "navbar-burger", {
               "is-active": !hamburgerMenuActive
             })}
             aria-label="menu"
@@ -46,7 +56,7 @@ const Layout = ({ children, ctx, title }) => {
             <span aria-hidden="true"></span>
           </a>
           <div
-            className={classnames("navbar-menu", {
+            className={classnames(styles["navbar-menu"], "navbar-menu", {
               "is-active": !hamburgerMenuActive
             })}
           >
@@ -78,7 +88,7 @@ const Layout = ({ children, ctx, title }) => {
             </div>
           </div>
 
-          <div className="navbar-brand">
+          <div className={classnames(styles["navbar-brand"], "navbar-brand")}>
             <Link href="/">
               <a className="navbar-item">
                 <img src="../../static/logo.png" width="120" height="30" />
@@ -86,8 +96,8 @@ const Layout = ({ children, ctx, title }) => {
             </Link>
           </div>
 
-          <div className="profileContainer">
-            <div className="nameContainer">
+          <div className={styles.profileContainer}>
+            <div className={styles.nameContainer}>
               <p className="subtitle is-6">
                 {fullName != null ? fullName.split(" ")[0] : ""}
               </p>
@@ -108,11 +118,17 @@ const Layout = ({ children, ctx, title }) => {
         </nav>
       </header>
 
-      <div className="root">{children}</div>
+      <div className={styles.root}>{children}</div>
 
-      <footer className="footer">
+      <footer className={classnames(styles.footer, "footer")}>
         <div className="content has-text-centered">
-          <span>Utveckling: Zino Kader</span>
+          <span>
+            Utveckling:
+            <a href="https://www.linkedin.com/in/zinokader" target="_blank">
+              {" "}
+              Zino Kader
+            </a>
+          </span>
         </div>
       </footer>
     </div>

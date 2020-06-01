@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import classnames from "classnames";
 import Bar from "../../Charts/Bar";
+import styles from "./statistic.module.scss";
 import { formatStatisticsData } from "../../../utils/chart-tools";
-import "./styles.scss";
 
 const Statistic = ({
   courseItem,
   selectedCourse,
-  methods: { setSelectedCourse, getExamDates, getChartData, getDeviceWidth },
-  ...restProps
+  methods: { setSelectedCourse, getExamDates, getChartData, getDeviceWidth }
 }) => {
   const [examDates, setExamDates] = useState([]);
   const [selectedExamDate, setSelectedExamDate] = useState();
@@ -47,26 +46,28 @@ const Statistic = ({
   return (
     <>
       <a
-        className="courseInformation"
+        className={styles.courseInformation}
         href={courseItem.courseLink}
         target="_blank"
       >
         Kursinformation
       </a>
       <div
-        className={classnames("courseDescriptionContainer", {
-          ["expanded"]: selectedCourse
+        className={classnames(styles.courseDescriptionContainer, {
+          [styles.expanded]: selectedCourse
         })}
       >
         {courseItem.courseDescription}
       </div>
-      <a id={courseItem.courseCode} className="courseAnchor"></a>
+      <a id={courseItem.courseCode} className={styles.courseAnchor}></a>
       <a
         href={"#" + courseItem.courseCode}
         onClick={() =>
           selectedCourse ? setSelectedCourse() : setSelectedCourse(courseItem)
         }
-        className={classnames("expandButton", { ["flipped"]: selectedCourse })}
+        className={classnames(styles.expandButton, {
+          [styles.flipped]: selectedCourse
+        })}
       >
         {selectedCourse ? "Göm statistik" : "Visa statistik"}
       </a>
@@ -74,18 +75,24 @@ const Statistic = ({
         <>
           <div
             className={classnames(
-              "dateDropDown",
+              styles.dateDropDown,
+              styles.stretchDropdown,
               "dropdown",
-              "stretchDropdown",
               {
                 ["is-active"]: dropdownActive
               }
             )}
             onClick={() => setDropdownActive(!dropdownActive)}
           >
-            <div className="dropdown-trigger stretchDropdown">
+            <div
+              className={classnames(styles.stretchDropdown, "dropdown-trigger")}
+            >
               <div
-                className="button stretchDropdown"
+                className={classnames(
+                  styles.stretchDropdown,
+                  styles.button,
+                  "button"
+                )}
                 aria-haspopup="true"
                 aria-controls="dropdown-menu"
                 tabIndex="1"
@@ -98,14 +105,21 @@ const Statistic = ({
                 </span>
               </div>
             </div>
-            <div className="dropdown-menu" id="dropdown-menu" role="menu">
+            <div
+              className={classnames(styles["dropdown-menu"], "dropdown-menu")}
+              role="menu"
+            >
               <div className="dropdown-content">
                 {examDates.map((examDate, i) => (
                   <a
                     key={i}
-                    className={classnames("dropdown-item", {
-                      ["is-active"]: examDate === selectedExamDate
-                    })}
+                    className={classnames(
+                      "dropdown-item",
+                      styles["dropdown-item"],
+                      {
+                        ["is-active"]: examDate === selectedExamDate
+                      }
+                    )}
                     onClick={() => setSelectedExamDate(examDate)}
                   >
                     {examDate}
@@ -119,10 +133,10 @@ const Statistic = ({
             <>
               {courseStatistics.length > 0 ? (
                 <>
-                  <div className="controlsContainer">
+                  <div className={styles.controlsContainer}>
                     <input
+                      className={classnames(styles.switch, "switch")}
                       id="percentizeCheckbox"
-                      className="switch"
                       type="checkbox"
                       onChange={() => setPercentizeChart(!percentizeChart)}
                       checked={!percentizeChart}
@@ -131,7 +145,7 @@ const Statistic = ({
                       Visa absoluta antal
                     </label>
                   </div>
-                  <div className="chartContainer">
+                  <div className={styles.chartContainer}>
                     <Bar
                       data={courseStatistics}
                       percentize={percentizeChart}
@@ -140,7 +154,7 @@ const Statistic = ({
                   </div>
                 </>
               ) : (
-                <div className="noDataNotice">
+                <div className={styles.noDataNotice}>
                   <p>Ingen statistik har publicerats för tentan</p>
                 </div>
               )}

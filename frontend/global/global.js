@@ -7,4 +7,12 @@ export const profile_picture_placeholder_path =
   "../../static/profile_placeholder.png";
 
 export const GRADE_ROUND_PRECISION = 3;
-export const gradeWeights = { A: 5, B: 4.5, C: 4, D: 3.5, E: 3, P: 0 };
+export const gradeWeights = {
+  A: { name: "A", value: 5 },
+  B: { name: "B", value: 4.5 },
+  C: { name: "C", value: 4 },
+  D: { name: "D", value: 3.5 },
+  E: { name: "E", value: 3 },
+  P: { name: "Pass", value: 0 },
+  NONE: { name: "Räkna ej", value: 0 }
+};

@@ -1,5 +1,7 @@
 import App from "next/app";
 import React from "react";
+import "../global/bulma.scss";
+import "../global/global.scss";
 
 export default class extends App {
   static async getInitialProps({ Component, ctx }) {

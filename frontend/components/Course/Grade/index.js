@@ -1,31 +1,23 @@
 import React from "react";
 import { gradeWeights } from "../../../global/global";
-import "./styles.scss";
+import styles from "./grade.module.scss";
 
 const Grade = ({ courseItem, isGraded, methods: { changeGrade } }) => {
   return (
-    <div className="gradeSelectContainer">
+    <div className={styles.gradeSelectContainer}>
       <p>Betyg: </p>
       <div className="select">
         <select
           onChange={e => changeGrade(courseItem, e.target.value)}
-          className="gradeSelect"
+          value={isGraded ? courseItem.courseGrade : "NONE"}
+          className={styles.gradeSelect}
         >
-          {!isGraded && (
-            <option value="" selected>
-              Välj betyg
-            </option>
-          )}
-          {Object.keys(gradeWeights).map((gradeWeight, i) => (
+          {Object.keys(gradeWeights).map((gradeKey, i) => (
             <option
-              key={i}
-              selected={isGraded && gradeWeight === courseItem.courseGrade}
+              key={courseItem.courseName + courseItem.courseGrade + i}
+              label={gradeWeights[gradeKey].name}
             >
-              {isGraded
-                ? gradeWeight === courseItem.courseGrade
-                  ? courseItem.courseGrade
-                  : gradeWeight
-                : gradeWeight}
+              {gradeKey}
             </option>
           ))}
         </select>

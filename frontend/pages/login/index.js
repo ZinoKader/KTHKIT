@@ -4,13 +4,13 @@ import classnames from "classnames";
 import { validateCredentials, getProfile } from "../../api/api";
 import Layout from "../../components/Layout";
 import { email_pattern } from "../../global/global";
-import "./styles.scss";
 import {
   setProfileCookies,
   setAuthCookies,
   deleteAuthAndProfileCookies,
   isLoggedIn
 } from "../../utils/login-tools";
+import styles from "./index.module.scss";
 
 const Login = ({ ctx, from }) => {
   const [username, setUsername] = useState("");
@@ -61,7 +61,7 @@ const Login = ({ ctx, from }) => {
   return (
     <Layout ctx={ctx}>
       <section className="section">
-        <div className="container">
+        <div className={styles.container}>
           {isLoggedIn(ctx) ? (
             <h1 className="title">Du är redan inloggad</h1>
           ) : (
@@ -99,7 +99,7 @@ const Login = ({ ctx, from }) => {
                 >
                   <p
                     className={classnames(
-                      "formErrorMessage",
+                      styles.formErrorMessage,
                       "help",
                       "is-danger",
                       {
@@ -121,7 +121,7 @@ const Login = ({ ctx, from }) => {
                         value={username}
                         autoComplete="off"
                         type="username"
-                        placeholder="användarnamn"
+                        placeholder="användarnamn (utan @kth.se)"
                       />
                       <span className="icon is-small is-left">
                         <i className="fas fa-envelope" />
@@ -158,7 +158,7 @@ const Login = ({ ctx, from }) => {
                       Glömde du ange ditt lösenord?
                     </p>
                   </div>
-                  <div className="field loginButtonField">
+                  <div className={classnames("field", styles.loginButtonField)}>
                     <div className="control">
                       <button
                         className={classnames(

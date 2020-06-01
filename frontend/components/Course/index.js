@@ -1,7 +1,8 @@
 import React from "react";
-import "./styles.scss";
 import Grade from "./Grade";
 import Statistic from "./Statistic";
+import classnames from "classnames";
+import styles from "./course.module.scss";
 
 export const COURSE_TYPE = {
   GRADE: "grade",
@@ -16,14 +17,15 @@ const Course = ({
   ...restProps
 }) => (
   <div
-    className={
-      "box courseContainer" +
-      (selectedCourse
+    className={classnames(
+      styles.courseContainer,
+      selectedCourse
         ? selectedCourse === courseItem
-          ? " expanded"
-          : " collapsed"
-        : "")
-    }
+          ? styles.expanded
+          : styles.collapsed
+        : "",
+      "box"
+    )}
   >
     <p>
       <strong>

@@ -13,7 +13,7 @@ import {
   profile_picture_placeholder_path,
   kth_profile_edit_url
 } from "../../global/global";
-import "./styles.scss";
+import styles from "./index.module.scss";
 
 const Profile = ({ ctx }) => {
   const [username, setUsername] = useState("");
@@ -54,9 +54,9 @@ const Profile = ({ ctx }) => {
       <section className="section">
         <div className="container">
           <h1 className="title">Din profil</h1>
-          <div className="card">
+          <div className={classnames(styles.card, "card")}>
             <div className="card-content">
-              <div className="profileCardContainer">
+              <div className={styles.profileCardContainer}>
                 <figure className="image is-64x64">
                   <img className="is-rounded" src={profileImageUrl} />
                 </figure>

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import * as api from "../../api/api";
 import { useWindowSize } from "../../utils/device-tools";
-import "./styles.scss";
 import Course, { COURSE_TYPE } from "../../components/Course";
+import classnames from "classnames";
+import styles from "./index.module.scss";
 
 const Statistics = ({ ctx }) => {
   const [courses, setCourses] = useState([]);
@@ -34,12 +35,12 @@ const Statistics = ({ ctx }) => {
         <div className="container">
           {!selectedCourse && <h1 className="title">Tentastatistik</h1>}
           {courses.length === 0 ? (
-            <div className="progressContainer">
+            <div className={styles.progressContainer}>
               <p>Hämtar kurser och statistik från KTH...</p>
               <progress className="progress is-medium is-dark" max="100" />
             </div>
           ) : (
-            <div className="content">
+            <div className={classnames(styles.content, "content")}>
               <ul>
                 {courses.map((courseItem, i) => (
                   <li key={i}>

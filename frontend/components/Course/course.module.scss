@@ -1,11 +1,4 @@
-@import "../../global/global.scss";
-
-.content {
-  text-align: center;
-  > :first-child {
-    margin-top: 10px;
-  }
-}
+@import "../../global/vars";
 
 .courseContainer {
   max-width: 500px;
@@ -36,9 +29,6 @@
       100% {
         opacity: 1;
       }
-    }
-
-    &::before {
     }
 
     &:hover {
